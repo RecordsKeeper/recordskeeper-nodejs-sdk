@@ -1,0 +1,26 @@
+{
+  "name": "recordskeeper",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=4.1.1"
+  },
+  "description": "RecordsKeeper nodejs sdk",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdaudier/numberFormatter.git"
+  },
+  "author": "“RecordsKeeper” <“rohit@toshblocks.com”> (https://www.recordskeeper.co/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdaudier/numberFormatter/issues"
+  },
+  "homepage": "https://github.com/jdaudier/numberFormatter#readme",
+  "dependencies": {
+    "deasync": "^0.1.13",
+    "unirest": "^0.5.1"
+  }
+}
