@@ -1,13 +1,12 @@
 var config = require('./config.json');
 var unirest = require("unirest");
-var deasync = require("deasync");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
 var rk_pass = config['rk_pass'];
 var rk_chain = config['rk_chain'];
 
-class Blockchain {
- getChainInfo(){
+module.exports = class Blockchain {
+ getChainInfo(callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var chain_protocol;
@@ -18,6 +17,7 @@ class Blockchain {
  var default_rpcport;
  var mining_diversity;
  var chain_name;
+ var params_array = {};
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -38,32 +38,35 @@ class Blockchain {
      }
       else{
       	var result = response.body; 
-      	console.log(result);
         chain_protocol = result['result']['chain-protocol'];
-		chain_description = result['result']['chain-description'];
-		root_stream = result['result']['root-stream-name'];
-		max_blocksize = result['result']['maximum-block-size'];
-		default_networkport = result['result']['default-network-port'];
-		default_rpcport = result['result']['default-rpc-port'];
-		mining_diversity = result['result']['mining-diversity'];
-		chain_name = result['result']['chain-name'];
-     
+		    chain_description = result['result']['chain-description'];
+		    root_stream = result['result']['root-stream-name'];
+		    max_blocksize = result['result']['maximum-block-size'];
+		    default_networkport = result['result']['default-network-port'];
+		    default_rpcport = result['result']['default-rpc-port'];
+		    mining_diversity = result['result']['mining-diversity'];
+		    chain_name = result['result']['chain-name'];
       }
-    });
-    while(chain_protocol === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      
-      return [chain_protocol, chain_description, root_stream, max_blocksize, default_networkport, default_rpcport, mining_diversity, chain_name];
+      params_array['chain-protocol']=chain_protocol;
+      params_array['chain-description']=chain_description;
+      params_array['root-stream-name']=root_stream;
+      params_array['maximum-block-size']=max_blocksize;
+      params_array['default-network-port']=default_networkport;
+      params_array['default-rpc-port']=default_networkport;
+      params_array['mining-diversity'] = mining_diversity;
+      params_array['chain-name'] = chain_name;
+      callback(params_array);
+    }); 
   }
 
- getNodeInfo(){
+ getNodeInfo(callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var node_balance;
  var synced_blocks;
  var node_address;
  var difficulty;
+ var params_array = {};
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -84,21 +87,23 @@ class Blockchain {
      }
       else{
       	var result = response.body; 
-        node_balance = result['result']['balance']
+    node_balance = result['result']['balance']
 		synced_blocks = result['result']['blocks']
 		node_address = result['result']['nodeaddress']
 		difficulty = result['result']['difficulty']
      
       }
+
+      params_array['node-balance']=node_balance;
+      params_array['blocks']=synced_blocks;
+      params_array['node-address']=node_address;
+      params_array['difficulty']=difficulty;
+      callback(params_array);
+
     });
-    while(node_balance === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      
-      return [node_balance, synced_blocks, node_address, difficulty];
   }
 
- permissions(){
+ permissions(callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var permissions = [];
@@ -129,21 +134,18 @@ class Blockchain {
       		permissions.push(count[i]['type']);
       	}
         
+        callback(permissions);
      
       }
     });
-    while(per_count === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      
-      return permissions;
   }
 
- getpendingTransactions(){
+ getpendingTransactions(callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var tx_count;
  var tx = [];
+ var params_array = {};
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -166,19 +168,13 @@ class Blockchain {
       	var result = response.body;
       	var count = result['result'];
       	tx_count = count['size'];
-        
-     
-      }
-    });
-    while(tx_count === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-
-    req.headers({
-    "cache-control": "no-cache",
-    "authorization": auth,
-    "content-type": "application/json"
-    });
+        console.log(tx_count);
+       if(tx_count!=0){
+       req.headers({
+      "cache-control": "no-cache",
+      "authorization": auth,
+      "content-type": "application/json"
+      });
  
      req.type("json");
      req.send({
@@ -199,18 +195,23 @@ class Blockchain {
       	for(var i=0; i < tx_count; i++){
       		tx.push(count);
       	}
-        
-     
       }
+      params_array['tx-count'] = tx_count;
+      params_array['tx'] = tx;
+      callback(params_array);
+    }); 
+  } else {
+    tx.push("No pending transactions");
+
+  }
+   params_array['tx-count'] = tx_count;
+        params_array['tx'] = tx;
+        callback(params_array);
+       }
     });
-    while(tx_count === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      
-      return [tx_count, tx];
   }
 
- checkNodeBalance(){
+ checkNodeBalance(callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var balance;
@@ -234,20 +235,11 @@ class Blockchain {
      }
       else{
       	var result = response.body;
-      	//console.log(result);
       	balance = result['result']['total'][0]['qty'];
       	}
+        callback(balance);
     });
-    while(balance === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      
-      return balance;
   }
 
 
 }
-
-var info = new Blockchain();
-var r = info.checkNodeBalance();
-console.log(r);

@@ -1,16 +1,15 @@
 var config = require('./config.json');
 var unirest = require("unirest");
-var deasync = require("deasync");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
 var rk_pass = config['rk_pass'];
 var rk_chain = config['rk_chain'];
 
-class Permissions {
- getMultisigWalletAddress(address, permissions) {
+module.exports = class Permissions {
+ grantPermissions(address, permissions, callback) {
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
- var status;
+ var txid;
  
  req.headers({
     "cache-control": "no-cache",
@@ -26,27 +25,21 @@ class Permissions {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
-     status= result['result'];
-     
-     //return address;
-      }
+     txid = result['result'];
+     if(txid == null){
+        txid = result['error']['message'];
+     } else {
+       txid = result['result']; 
+     }
+     callback(txid);
     });
-    while(status === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return status;
 }
 
- revokePermission(address, permissions) {
+ revokePermission(address, permissions, callback) {
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
- var status;
+ var txid;
  
  req.headers({
     "cache-control": "no-cache",
@@ -62,22 +55,14 @@ class Permissions {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
-     status= result['result'];
-     
-     //return address;
-      }
+     txid = result['result'];
+     if(txid == null){
+        txid = result['error']['message'];
+     } else {
+       txid = result['result']; 
+     }
+     callback(txid);
     });
-    while(status === undefined) {
-      require('deasync').runLoopOnce();
     } 
-      return status;
  }
-
-
-}

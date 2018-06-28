@@ -1,33 +1,20 @@
+'use strict';
 var config = require('./config.json');
 var unirest = require("unirest");
-var deasync = require("deasync");
-var address;
-//var network = config['testnet']				#network variable to store the netwrok that you want to access
+//var network = config['testnet']               #network variable to store the netwrok that you want to access
 
 //if (network==config['testnet']){
 
-	var rk_host = config['rk_host'];
-	var rk_user = config['rk_user'];
-	var rk_pass = config['rk_pass'];
-	var rk_chain = config['rk_chain'];
-//}	
+    var rk_host = config['rk_host'];
+    var rk_user = config['rk_user'];
+    var rk_pass = config['rk_pass'];
+    var rk_chain = config['rk_chain'];
 
-/*else {
-
-	var url = config['mainnet']['url'];
-	var user = config['mainnet']['rkuser'];
-	var password = config['mainnet']['passwd'];
-	var chain = config['mainnet']['chain'];
-}*/
-class Address {
-
- /*constructor() {
-  console.log('instance created');
-};*/
- 
- getAddress(){
+module.exports = class Address {
+getAddress(callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
+ var address;
  
  req.headers({
     "cache-control": "no-cache",
@@ -50,20 +37,16 @@ class Address {
       else{
      var result = response.body; 
      address= result['result'];
-     
-     //return address;
+     callback(address);
       }
     });
-    while(address === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return address;
   }
 
-getMultisigAddress(required, key) {
-var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
+ getMultisigAddress(required, key, callback) {
+ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
- 
+ var address;
+ var keys = key.split(",");
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -73,32 +56,28 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
      req.type("json");
      req.send({
     "method": "createmultisig",
-    "params": [required, "key"],
+    "params": [required, keys],
     "id": 1,
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
      address= result['result'];
-     
-     //return address;
-      }
+     if(address == null){
+       address = result['error']['message'];
+     } else {
+        address= result['result']['address'];
+     }
+     callback(address);
     });
-    while(address === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return address;
 }
 
-getMultisigWalletAddress(required, key) {
-var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
+getMultisigWalletAddress(required, key, callback) {
+ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
- 
+ var multisigaddress;
+ var address;
+ var keys = key.split(",");
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -108,32 +87,26 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
      req.type("json");
      req.send({
     "method": "addmultisigaddress",
-    "params": [required, "key"],
+    "params": [required, keys],
     "id": 1,
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
      address= result['result'];
-     
-     //return address;
-      }
+     if(address == null){
+       multisigaddress = result['error']['message'];
+     } else {
+        multisigaddress= result['result'];
+     }
+     callback(multisigaddress);
     });
-    while(address === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return address;
 }
 
-retrieveAddresses() {
-var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
+ retrieveAddresses(callback) {
+ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
- 
+ var address;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -155,21 +128,17 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
       else{
      var result = response.body; 
      address= result['result'];
+     callback(address);
      
-     //return address;
       }
     });
-    while(address === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return address;
 }
 
-checkifValid(addr) {
-var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
+ checkifValid(addr, callback) {
+ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var valid;
- 
+ var addressCheck;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -190,26 +159,23 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
      }
       else{
      var result = response.body; 
-     valid= result['result']['isvalid'];
+     valid = result['result']['isvalid'];
      if (valid == true){
         addressCheck = "Address is valid";
      }
       else {
         addressCheck = "Address is invalid";
       }
-     //return address;
+    callback(addressCheck);
       }
     });
-    while(valid === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return addressCheck;
-}
+  }
 
-checkifMineAllowed(addr) {
-var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
+ checkifMineAllowed(addr, callback) {
+ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var permission;
+ var permissionCheck;
  
  req.headers({
     "cache-control": "no-cache",
@@ -238,16 +204,12 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
       else {
         permissionCheck  = "Address has not mining permission";
       }
-     //return address;
+      callback(permissionCheck);
       }
     });
-    while(permission === undefined) {
-      require('deasync').runLoopOnce();
-    } 
       return permissionCheck;
 }
-
-checkBalance(address) {
+checkBalance(address, callback) {
 var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var balance;
@@ -273,20 +235,16 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
       else{
      var result = response.body; 
      balance= result['result'][0]['qty'];
-     
-     //return address;
+     callback(balance);
       }
     });
-    while(balance === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return balance;
 }
 
-importAddress(addr) {
+importAddress(addr, callback) {
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var status;
+ var resp;
  
  req.headers({
     "cache-control": "no-cache",
@@ -302,31 +260,17 @@ importAddress(addr) {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
      status = result['result'];
-     if (status == null){
+     var error = result['error'];
+     if (status == null & error == null){
         resp = "Address successfully imported";
+     } else if((status == null & error != null)){
+        resp = error['message'];
      } else {
         resp = 0;
      }
-     //return address;
-      }
-    });
-    while(status === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return resp;
+     callback(resp);
+    }); 
  }
 }
-
-
-var info = new Address();
-var r = info.checkBalance("mmQhinA2xkbxzz1b2DuNzZQNF3r2EFrqNA");
-console.log(r);
-
-

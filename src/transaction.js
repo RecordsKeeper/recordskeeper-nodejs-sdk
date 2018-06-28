@@ -1,14 +1,13 @@
 var config = require('./config.json');
 var unirest = require("unirest");
-var deasync = require("deasync");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
 var rk_pass = config['rk_pass'];
 var rk_chain = config['rk_chain'];
 
-class Transaction {
+module.exports = class Transaction {
 
- sendTransaction(sender_address, reciever_address, data, amount){
+ sendTransaction(sender_address, reciever_address, data, amount, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var txid;
@@ -34,17 +33,12 @@ class Transaction {
       else{
      var result = response.body; 
      txid = result['result'];
-     
-     //return address;
+     callback(txid);
       }
     });
-    while(txid === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return txid;
   }
 
- createRawTransaction(sender_address, reciever_address, data, amount){
+ createRawTransaction(sender_address, reciever_address, data, amount, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var txhex;
@@ -70,20 +64,16 @@ class Transaction {
       else{
      var result = response.body; 
      txhex = result['result'];
-     
-     //return address;
+     callback(txhex);
       }
     });
-    while(txhex === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return txhex;
   }
 
- signRawTransaction(txhex, private_key){
+ signRawTransaction(txhex, private_key, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var priv_key = [];
+ priv_key.push(private_key);
  var signedtxhex;
  req.headers({
     "cache-control": "no-cache",
@@ -104,22 +94,18 @@ class Transaction {
         throw new Error(response.error);
      }
       else{
-     var result = response.body; 
+     var result = response.body;
      signedtxhex = result['result']['hex'];
-     
-     //return address;
+     callback(signedtxhex);
       }
-    });
-    while(signedtxhex === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return signedtxhex;
+    }); 
   }
 
- sendRawTransaction(signedtxhex){
+ sendRawTransaction(signedtxhex, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var txid;
+ var tx;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -134,37 +120,37 @@ class Transaction {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
-     txid = result['result'];
-     
-     //return address;
+     tx = result['result'];
+     if(tx === null){
+     txid = result['error']['message'];
       }
+     else {
+        txid = tx; 
+     }
+     callback(txid);
     });
-    while(txid === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return txid;
   }
 
-  sendSignedTransaction(sender_address, reciever_address, amount, private_key, data) {
+  sendSignedTransaction(sender_address, reciever_address, amount, private_key, data, callback) {
   	var hexdata = Buffer.from(data, 'utf8').toString('hex');
-    var txhex = this.createRawTransaction(sender_address, reciever_address, data, amount);
-    var signed_tx_hex = this.signRawTransaction(txhex, private_key);
-    var tx_id = this.sendRawTransaction(signed_tx_hex);
-    return tx_id;
+    this.createRawTransaction(sender_address, reciever_address, hexdata, amount,function(txhex){
+    this.signRawTransaction(txhex, private_key, function(signedtxhex){
+    this.sendRawTransaction(signedtxhex, function(txid){
+          callback(txid);
+        });
+
+      }.bind(this));
+    }.bind(this));
 }
 
-retrieveTransaction(txid){
+retrieveTransaction(txid, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var hex;
  var data;
  var amount;
+ var params_array = {};
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -187,22 +173,21 @@ retrieveTransaction(txid){
      
      var result = response.body; 
      hex = result['result']['hex'];
-     data = result['result']['data'];
+     var hexdata = result['result']['data'][0];
+     data = Buffer.from(hexdata, 'hex').toString('utf8');
      amount = result['result']['vout'][0]['value'];
-     
-     //return address;
       }
+      params_array['hex'] = hex;
+      params_array['data'] = data;
+      params_array['amount'] = amount;
+      callback(params_array);
     });
-    while(hex === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return [hex, data, amount];
   }
 
- getFee(address, txid){
+ getFee(address, txid, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
- var fee
+ var fee;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -224,20 +209,13 @@ retrieveTransaction(txid){
       else{
      
      var result = response.body; 
-     fee = result['result']['balance']['amount'];
-     
-     //return address;
+     var sent_amount = result['result']['vout'][0]['amount'];
+     var balance_amount = result['result']['balance']['amount'];
+     fee = Math.abs(balance_amount) - sent_amount;
+     callback(fee);
       }
-    });
-    while(fee === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      return fee;
+    }); 
   }
 
 
 }
-
-var info = new Transaction();
-var r = info.getFee("mpC8A8Fob9ADZQA7iLrctKtwzyWTx118Q9","a5f7f479af5f465814aaf07f9f89297266641d2b71ede9e87653403c7581c1f7");
-console.log(r);

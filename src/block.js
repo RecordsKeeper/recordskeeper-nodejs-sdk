@@ -1,14 +1,13 @@
 var config = require('./config.json');
 var unirest = require("unirest");
-var deasync = require("deasync");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
 var rk_pass = config['rk_pass'];
 var rk_chain = config['rk_chain'];
 
-class Block {
+module.exports = class Block {
  
- blockinfo(block_height){
+ blockinfo(block_height, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var tx =[];
@@ -21,8 +20,8 @@ class Block {
  var merkleroot;
  var blocktime;
  var difficulty;
- 
  var size;
+ var param_array = {};
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -57,17 +56,23 @@ class Block {
      for (var i= 0; i< tx_count; i++){
      	tx.push(count[i]);
      }
-     
+     param_array['tx_count']=tx_count;
+     param_array['tx']= tx;
+     param_array['miner']= miner;
+     param_array['size']= size;
+     param_array['nonce']= nonce;
+     param_array['blockhash']= blockhash;
+     param_array['previousblockhash']= previousblockhash;
+     param_array['nextblockhash']= nextblockhash;
+     param_array['merkleroot']= merkleroot;
+     param_array['blocktime']= blocktime;
+     param_array['difficulty']= difficulty;
+     callback(param_array);
       }
-    });
-    while(miner === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      
-      return [tx_count, tx, miner, size, nonce, blockhash, previousblockhash, nextblockhash, merkleroot, blocktime, difficulty];
+    }); 
   }
 
-retrieveBlocks(block_range){
+retrieveBlocks(block_range, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var blockhash = [];
@@ -75,6 +80,7 @@ retrieveBlocks(block_range){
  var blocktime = [];
  var tx_count = [];
  var result;
+ var param_array= {};
  
  var size;
  req.headers({
@@ -105,20 +111,16 @@ retrieveBlocks(block_range){
      	blocktime.push(result['result'][i]['time']);
      	tx_count.push(result['result'][i]['txcount']);
      }
+     param_array['miner']= miner;
+     param_array['blockhash']= blockhash;
+     param_array['blocktime']= blocktime;
+     param_array['tx_count']=tx_count;
+     callback(param_array);
      
       }
     });
-    while(result === undefined) {
-      require('deasync').runLoopOnce();
-    } 
-      
-      return [tx_count, miner, blockhash, blocktime];
   }
 
 
 
 }
-
-var info = new Block();
-var r = info.retrieveBlocks("10-20");
-console.log(r);
