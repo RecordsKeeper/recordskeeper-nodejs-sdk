@@ -25,6 +25,7 @@ Config file to import config parameters:
 ```bash
     
    var config = require('./config.json');
+
 ```
    
 Importing chain url and chain name from config file:
@@ -34,6 +35,7 @@ Importing chain url and chain name from config file:
 
 ```bash
   var rk_host = config['rk_host'];
+
   var rk_chain = config['rk_chain'];
 ```
 
@@ -48,6 +50,7 @@ Importing user name and password values from config file to authenticate the nod
 
 ```bash
     var rk_user = config['rk_user'];
+
     var rk_pass = config['rk_pass'];
 
 ``` 
@@ -213,7 +216,6 @@ checkBalance() function is used to check the balance of the address.
     }); 
 
 It will return the balance of the address on RecordsKeeper Blockchain.
- prints balance of the address
 
 **8. Import a non-wallet address on RecordsKeeeper Blockchain**
 
