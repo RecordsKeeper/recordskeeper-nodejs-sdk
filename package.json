@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jdaudier/numberFormatter.git"
+    "url": "git+https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk.git"
   },
   "author": "“RecordsKeeper” <“rohit@toshblocks.com”> (https://www.recordskeeper.co/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jdaudier/numberFormatter/issues"
+    "url": "https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk.git/issues"
   },
-  "homepage": "https://github.com/jdaudier/numberFormatter#readme",
+  "homepage": "https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk.git#readme",
   "dependencies": {
     "async": "^2.6.1",
     "deasync": "^0.1.13",
