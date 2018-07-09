@@ -10,58 +10,47 @@ by using Address class. You just have to pass parameters to invoke the pre-defin
 Libraries
 ---------
 
-Import these python libraries first to get started with the functionality.
+Import recordskeepr library first to get started with the functionality.
 
 .. code-block:: python
 
-    import requests
-    import json
-    from requests.auth import HTTPBasicAuth
-    import yaml
-    import sys
-    import binascii
+  var recordskeeper = require('recordskeeper');  
 
 
 Creating Connection
 -------------------
 
-Entry point for accessing Address class resources.
+Config file to import config parameters:
+
+```bash
+    
+   var config = require('./config.json');
+```
+   
+Importing chain url and chain name from config file:
 
 * URL: Url to connect to the chain ([RPC Host]:[RPC Port])
 * Chain-name: chain name
 
-.. code-block:: python
-    
-    with open("config.yaml", 'r') as ymlfile:
-        cfg = yaml.load(ymlfile)
-
-.. code-block:: python
-
-    network = cfg['network']                    #network variable to store the network that you want to access
-
-
-.. code-block:: python 
-
-    url = network['url']
-    chain = network['chain']
+```bash
+  var rk_host = config['rk_host'];
+  var rk_chain = config['rk_chain'];
+```
 
 
 Node Authentication
 -------------------
 
-Importing values from config file.
+Importing user name and password values from config file to authenticate the node:
 
 * User name: The rpc user is used to call the APIs.
 * Password: The rpc password is used to authenticate the APIs.
 
-Default value of network is **Test-net**, you can change its value to select mainnet or testnet
+```bash
+    var rk_user = config['rk_user'];
+    var rk_pass = config['rk_pass'];
 
-.. code-block:: python
-    
-    user = network['rkuser']
-    password = network['passwd']
-
-Now we have node authentication credentials.
+``` 
 
 Address Class
 -------------
@@ -77,11 +66,15 @@ getAddress() function is used to generate a new wallet address.
 
 .. code-block:: python
 
-    getAddress()  
+    getAddress(callback) #getAddress function definition 
 
-    newAddress = getAddress()          #getAddress() function call   
+    var addr = new recordskeeper.Address(); #object of class address
+    
+    addr.getAddress(function(address){          #getAddress() function call   
 
-    print newAddress                  # prints a new address
+    console.log(address);                 # prints a new address
+
+    }); 
 
 It will return a new address of the wallet.
 
@@ -97,11 +90,15 @@ getMultisigAddress() function is used to generate a new multisignature address.
 
 .. code-block:: python
 
-    getMultisigAddress(nrequired, key)  
+    getMultisigAddress(required, key, callback)  #getMultisigAddress function definition
 
-    newAddress = getMultisigAddress(nrequired, key)          #getMultisigAddress() function call   
+    var addr = new recordskeeper.Address(); #object of class address 
 
-    print newAddress                           # prints a new address
+    addr.getMultisigAddress(required, key, function(address){           #getMultisigAddress() function call   
+
+    console.log(address);                          # prints a new multisig address
+
+    }); 
 
 It will return a new multisignature address on RecordsKeeper Blockchain.
 
@@ -117,11 +114,15 @@ getMultisigWalletAddress() function is used to generate a new wallet address.
 
 .. code-block:: python
 
-    getMultisigWalletAddress(nrequired, key)  
+    getMultisigWalletAddress(required, key, callback)  #getMultisigWalletAddress function definition
 
-    newAddress = getMultisigWalletAddress(nrequired, key)    #getMultisigWalletAddress() function call   
+    var addr = new recordskeeper.Address(); #object of class address 
 
-    print newAddress                           #prints a new address
+    addr.getMultisigWalletAddress(required, key, function(address){         #getMultisigAddress() function call   
+
+    console.log(address);                          # prints a new multisig address
+
+    }); 
 
 It will return a new multisignature address on the wallet.
 
@@ -132,13 +133,17 @@ retrieveAddresses() function is used to list all addresses and no of addresses o
 
 .. code-block:: python
 
-    retrieveAddresses()  
-    result = retrieveAddresses()       #retrieveAddresses() function call
-  
-    print result['address']             #prints all the addresses of the wallet
-    print result['address count']       #prints the address count
+    retrieveAddress(callback)  #retrieveAddress function definition
 
-It will return all the addresses and the count of the addresses on the wallet.
+    var addr = new recordskeeper.Address(); #object of class address 
+
+    addr.retrieveAddress(function(address){         #retrieveAddress() function call   
+
+    console.log(address);                          #prints all the addresses of the wallet
+
+    });
+
+It will return all the addresses on the wallet.
 
 
 **5. Check validity of the address**
@@ -151,10 +156,15 @@ checkifValid() function is used to check validity of a particular address.
 
 .. code-block:: python
 
-    checkifValid()  
-    addressCheck = checkifValid(address)  #checkifValid() function call 
-  
-    print addressCheck      # prints validity of the address
+    checkifValid(address, callback)  #checkifValid function definition
+
+    var addr = new recordskeeper.Address(); #object of class address 
+
+    addr.checkifValid(address, function(response){         #checkifValid() function call   
+
+    console.log(response);                          # prints validity of the address
+
+    });
 
 It will return if an address is valid or not.
 
@@ -169,10 +179,15 @@ checkifMineAllowed() function is used to sign raw transaction by passing transac
 
 .. code-block:: python
 
-    checkifMineAllowed(address) 
-    permissionCheck = checkifMineAllowed(address)   #checkifMineAllowed() function call
-    
-    print permissionCheck      # prints permission status of the given address
+    checkifMineAllowed(address, callback)  #checkifMineAllowed function definition
+
+    var addr = new recordskeeper.Address(); #object of class address 
+
+    addr.checkifMineAllowed(address, function(response){         #checkifMineAllowed() function call   
+
+    console.log(response);                          # prints permission status of the given address
+
+    });
 
 It will return if mining permission is allowed or not.
 
@@ -187,13 +202,18 @@ checkBalance() function is used to check the balance of the address.
 
 .. code-block:: python
 
-    checkBalance(address)
-    address_balance = checkBalance(address)     #checkBalance() function call
-  
-    print address_balance    # prints balance of the address
+   checkBalance(address, callback)  #checkBalance function definition
+
+    var addr = new recordskeeper.Address(); #object of class address 
+
+    addr.checkBalance(address, function(balance){         #checkBalance() function call   
+
+    console.log(balance);                          # prints balance of the address 
+
+    }); 
 
 It will return the balance of the address on RecordsKeeper Blockchain.
-
+ prints balance of the address
 
 **8. Import a non-wallet address on RecordsKeeeper Blockchain**
 
@@ -205,9 +225,14 @@ importAddress() function is used to check the balance of the address.
 
 .. code-block:: python
 
-    importAddress(public_address)
-    response = importAddress(public_address)     #importAddress() function call
-  
-    print response    # prints response whether address is successfully imported or not
+   importAddress(address, callback)  #importAddress function definition
+
+    var addr = new recordskeeper.Address(); #object of class address 
+
+    addr.importAddress(address, function(response){         #importAddress() function call   
+
+    console.log(response);                      # prints response whether address is successfully imported or not 
+
+    });  
 
 It will return the response of the importAddress() function call.
