@@ -32,6 +32,7 @@ Importing chain url and chain name from config file:
 * Chain-name: chain name
 
 .. code-block:: python
+
   var rk_host = config['rk_host'];
 
   var rk_chain = config['rk_chain'];
@@ -46,6 +47,7 @@ Importing user name and password values from config file to authenticate the nod
 * Password: The rpc password is used to authenticate the APIs.
 
 .. code-block:: python
+
     var rk_user = config['rk_user'];
 
     var rk_pass = config['rk_pass'];
