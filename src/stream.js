@@ -1,4 +1,5 @@
-var config = require('./config.json');
+var path = require('path');
+var config = require(path.resolve( __dirname,'../../../config.json'));
 var unirest = require("unirest");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];

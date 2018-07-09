@@ -1,6 +1,6 @@
-var config = require('./config.json');
 var unirest = require("unirest");
-var deasync = require("deasync");
+var path = require('path');
+var config = require(path.resolve( __dirname,'../../../config.json'));
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
 var rk_pass = config['rk_pass'];

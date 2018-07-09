@@ -1,5 +1,6 @@
 'use strict';
-var config = require('../src/config.json');
+var path = require('path');
+var config = require(path.resolve( __dirname,'../../../config.json'));
 var assert = require('assert');
 var Assets = require('../src/assets.js');
 var As = new Assets();

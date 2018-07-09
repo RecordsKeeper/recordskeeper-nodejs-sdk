@@ -1,5 +1,6 @@
 'use strict';
-var config = require('../src/config.json');
+var path = require('path');
+var config = require(path.resolve( __dirname,'../../../config.json'));
 var assert = require('assert');
 var Blockchain = require('../src/blockchain.js');
 var b = new Blockchain();

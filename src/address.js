@@ -1,14 +1,11 @@
 'use strict';
-var config = require('./config.json');
 var unirest = require("unirest");
-//var network = config['testnet']               #network variable to store the netwrok that you want to access
-
-//if (network==config['testnet']){
-
-    var rk_host = config['rk_host'];
-    var rk_user = config['rk_user'];
-    var rk_pass = config['rk_pass'];
-    var rk_chain = config['rk_chain'];
+var path = require('path');
+var config = require(path.resolve( __dirname,'../../../config.json'));
+var rk_host = config['rk_host'];
+var rk_user = config['rk_user'];
+var rk_pass = config['rk_pass'];
+var rk_chain = config['rk_chain'];
 
 module.exports = class Address {
 getAddress(callback){
