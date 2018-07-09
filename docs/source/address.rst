@@ -22,22 +22,19 @@ Creating Connection
 
 Config file to import config parameters:
 
-```bash
+.. code-block:: python
     
    var config = require('./config.json');
-
-```
    
 Importing chain url and chain name from config file:
 
 * URL: Url to connect to the chain ([RPC Host]:[RPC Port])
 * Chain-name: chain name
 
-```bash
+.. code-block:: python
   var rk_host = config['rk_host'];
 
   var rk_chain = config['rk_chain'];
-```
 
 
 Node Authentication
@@ -48,12 +45,10 @@ Importing user name and password values from config file to authenticate the nod
 * User name: The rpc user is used to call the APIs.
 * Password: The rpc password is used to authenticate the APIs.
 
-```bash
+.. code-block:: python
     var rk_user = config['rk_user'];
 
     var rk_pass = config['rk_pass'];
-
-``` 
 
 Address Class
 -------------
