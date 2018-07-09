@@ -8,7 +8,6 @@ It is an infrastructure to build RecordsKeeper blockchain-based applications, pr
 ## Getting Started
 
 Before you begin you'll need to have nodejs and npm installed. There are several options for installation for  depending on the operating system you are using.
-
 Step 1: Create a new directory and make a package.json file inside it.
 
 ```bash
@@ -28,8 +27,6 @@ npm i
 ```
 Creating Connection
 -------------------
-
-Entry point for accessing Address class resources.
 
 Config file to import config parameters:
 
@@ -109,7 +106,7 @@ npm test test_name
 
 ## Documentation
 
-The complete docs are here: [RecordsKeeper nodejs sdk documentation](https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk/tree/master/docs/source).
+The complete docs are here: [RecordsKeeper python library documentation](https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk/tree/master/docs/source).
 
 
 ## License
