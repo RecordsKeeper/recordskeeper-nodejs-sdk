@@ -13,54 +13,43 @@ Import these python libraries first to get started with the functionality.
 
 .. code-block:: python
 
-    import requests
-    import json
-    from requests.auth import HTTPBasicAuth
-    import yaml
-    import sys
-    import binascii
+ var recordskeeper = require('recordskeeper');  
 
 
 Creating Connection
 -------------------
 
-Entry point for accessing Address class resources.
+Config file to import config parameters:
+
+.. code-block:: python
+    
+   var config = require('./config.json');
+   
+Importing chain url and chain name from config file:
 
 * URL: Url to connect to the chain ([RPC Host]:[RPC Port])
 * Chain-name: chain name
 
 .. code-block:: python
-    
-    with open("config.yaml", 'r') as ymlfile:
-        cfg = yaml.load(ymlfile)
 
-.. code-block:: python
+  var rk_host = config['rk_host'];
 
-    network = cfg['network']                    #network variable to store the network that you want to access
-
-
-.. code-block:: python 
-
-    url = network['url']
-    chain = network['chain']
+  var rk_chain = config['rk_chain'];
 
 
 Node Authentication
 -------------------
 
-Importing values from config file.
+Importing user name and password values from config file to authenticate the node:
 
 * User name: The rpc user is used to call the APIs.
 * Password: The rpc password is used to authenticate the APIs.
 
-Default value of network is **Test-net**, you can change its value to select mainnet or testnet
-
 .. code-block:: python
-    
-    user = network['rkuser']
-    password = network['passwd']
 
-Now we have node authentication credentials.
+    var rk_user = config['rk_user'];
+
+    var rk_pass = config['rk_pass'];
 
 Assets Class
 ------------
@@ -76,11 +65,15 @@ createAsset() function is used to create or issue an asset.
 
 .. code-block:: python
 
-    createAsset(address, asset_name, asset_qty)  
+    createAsset(address, asset_name, asset_qty, callback) 
 
-    txid = createAsset(address, asset_name, asset_qty)          #createAsset() function call   
+    var asset = new recordskeeper.Assets(); #object of class address 
 
-    print txid                  # prints transaction id of the issued asset
+    asset.createAsset(address, asset_name, asset_qty, function(txid){          #createAsset() function call   
+
+    console.log(txid);                 # prints transaction id of the issued asset.
+
+    }); 
 
 It will return the transaction id of the issued asset.
 
@@ -96,11 +89,15 @@ sendAsset() function is used to send an asset.
 
 .. code-block:: python
 
-    sendAsset(address, assetname, qty)  
+    sendAsset(address, assetname, qty, callback)  
 
-    txid = sendAsset(address, assetname, qty)              #sendAsset() function call   
+    var asset = new recordskeeper.Assets(); #object of class address 
 
-    print txid                  # prints transaction id of the sent asset
+    asset.sendAsset(address, asset_name, asset_qty, function(txid){          #sendAsset() function call   
+
+    console.log(txid);                 # prints transaction id of the sent asset.
+
+    });
 
 It will return the transaction id of the sent asset.
 
@@ -110,13 +107,18 @@ retrieveAssets() function is used to list all assets, no of assets, issued quant
 
 .. code-block:: python
 
-    retrieveAssets()  
-    result = retrieveAssets()       #retrieveAssets() function call
+    retrieveAssets(callback) 
+
+    var asset = new recordskeeper.Assets(); #object of class address 
+
+    asset.retrieveAsset(function(response){      #retrieveAssets() function call
   
-    print result['name']            #prints name of all the assets
-    print result['asset count']     #prints total asset count
-    print result['id']              #prints assets issued quantity
-    print result['qty']             #prints assets issued transaction id
+    console.log(response['asset_name'])            #prints name of all the assets
+    console.log(response['asset_count'])           #prints total asset count
+    console.log(response['issue_id'])              #prints assets issued quantity
+    console.log(response['issue_qty'])             #prints assets issued transaction id
+
+    }); 
 
 It will return all the assets, the count of the assets, issued quantity of assets and issued transaction id of the asset on the RecordsKeeper Blockchain.
 
