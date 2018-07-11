@@ -335,6 +335,7 @@ signMessage(private_key, message, callback) {
       var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
       var req = unirest("POST", rk_host);
       var status;
+      var message;
  
      req.headers({
     "cache-control": "no-cache",
@@ -351,8 +352,13 @@ signMessage(private_key, message, callback) {
     });
     req.end(function (response) {
      var result = response.body; 
-     status = result['result'];   
-     callback(status);
+     status = result['result'];
+     if(status == null){
+     message = result['error']['message'];
+     } else {
+        message = result['result'];
+     }  
+     callback(message);
     });
 }
 

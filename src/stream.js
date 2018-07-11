@@ -1,5 +1,5 @@
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
+var config = require(path.resolve( __dirname,'../../config.json'));
 var unirest = require("unirest");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
@@ -97,16 +97,16 @@ module.exports = class Stream {
     });
     req.end(function (response) {
     if (response.error){
-        console.log(response.error);
+        console.log(response);
         throw new Error(response.error);
      }
       else{
      for (var i = 0; i <=count - 1; i++){
         var result = response.body; 
-        var hexdata = result['result'][0]['data'];
+        var hexdata = result['result'][i]['data'];
         var data = Buffer.from(hexdata, 'hex').toString('utf8');
-        var txid = result['result'][0]['txid'];
-        var key = result['result'][0]['key'];
+        var txid = result['result'][i]['txid'];
+        var key = result['result'][i]['key'];
         result_data.push(data);
         total_txid.push(txid);
         key_values.push(key);
@@ -152,9 +152,9 @@ module.exports = class Stream {
 
      for (var i = 0; i <=count - 1; i++){
         var result = response.body; 
-        var hexdata = result['result'][0]['data'];
-        publisher = result['result'][0]['publishers'];
-        txid = result['result'][0]['txid'];
+        var hexdata = result['result'][i]['data'];
+        publisher = result['result'][i]['publishers'];
+        txid = result['result'][i]['txid'];
         data = Buffer.from(hexdata, 'hex').toString('utf8');
         result_data.push(data);
         total_txid.push(txid);
@@ -168,7 +168,7 @@ module.exports = class Stream {
     });
   }
 
- VerifyData(stream, data, count, callback){
+ verifyData(stream, data, count, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var stream_data;
@@ -195,7 +195,7 @@ module.exports = class Stream {
       else{
      for (var i = 0; i <=count-1; i++){
      var result = response.body; 
-     var hexdata = result['result'][0]['data'];
+     var hexdata = result['result'][i]['data'];
      stream_data = Buffer.from(hexdata, 'hex').toString('utf8');
      result_data.push(stream_data);
       }
@@ -240,11 +240,11 @@ module.exports = class Stream {
 
      	for (var i = 0; i <=count; i++){
      	var result = response.body; 
-        var hexdata = result['result'][0]['data'];
+        var hexdata = result['result'][i]['data'];
         var data = Buffer.from(hexdata, 'hex').toString('utf8');
-        var publisher = result['result'][0]['publishers'];
-        var txid = result['result'][0]['txid'];
-        var key = result['result'][0]['key'];
+        var publisher = result['result'][i]['publishers'];
+        var txid = result['result'][i]['txid'];
+        var key = result['result'][i]['key'];
         address.push(publisher);
         result_data.push(data);
         total_txid.push(txid);

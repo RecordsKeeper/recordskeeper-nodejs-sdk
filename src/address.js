@@ -1,7 +1,7 @@
 'use strict';
 var unirest = require("unirest");
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
+var config = require(path.resolve( __dirname,'../../config.json'));
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
 var rk_pass = config['rk_pass'];
@@ -103,7 +103,9 @@ getMultisigWalletAddress(required, key, callback) {
  retrieveAddresses(callback) {
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
- var address;
+ var addresses;
+ var address_count;
+ var params_array = {};
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -124,8 +126,11 @@ getMultisigWalletAddress(required, key, callback) {
      }
       else{
      var result = response.body; 
-     address= result['result'];
-     callback(address);
+     addresses = result['result'];
+     address_count = addresses.length;
+     params_array['addresses'] = addresses;
+     params_array['address_count'] = address_count;
+     callback(params_array);
      
       }
     });
@@ -194,17 +199,23 @@ getMultisigWalletAddress(required, key, callback) {
      }
       else{
      var result = response.body; 
+     var valid = result['result']['isvalid'];
      permission = result['result']['ismine'];
-     if (permission == true){
+     if (valid == true){
+        permission = result['result']['ismine'];
+        if (permission == true){
         permissionCheck = "Address has mining permission";
      }
       else {
         permissionCheck  = "Address has not mining permission";
       }
-      callback(permissionCheck);
+    } else {
+        permissionCheck = "Invalid address, please check for valid address";
+    }
+      
       }
+      callback(permissionCheck);
     });
-      return permissionCheck;
 }
 checkBalance(address, callback) {
 var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
@@ -225,15 +236,14 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
+    var result = response.body; 
+    balance = result['result'];
+    if(balance == null){
+       balance = result['error']['message'];
+     } else {
+        balance= result['result'][0]['qty'];
      }
-      else{
-     var result = response.body; 
-     balance= result['result'][0]['qty'];
      callback(balance);
-      }
     });
 }
 

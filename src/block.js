@@ -1,5 +1,5 @@
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
+var config = require(path.resolve( __dirname,'../../config.json'));
 var unirest = require("unirest");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
@@ -11,6 +11,7 @@ module.exports = class Block {
  blockinfo(block_height, callback){
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
+ var blockheight = String(block_height);
  var tx =[];
  var miner;
  var tx_count;
@@ -32,7 +33,7 @@ module.exports = class Block {
      req.type("json");
      req.send({
     "method": "getblock",
-    "params": [block_height],
+    "params": [blockheight],
     "id": 1,
     "chain_name": rk_chain
     });
@@ -115,7 +116,7 @@ retrieveBlocks(block_range, callback){
      param_array['miner']= miner;
      param_array['blockhash']= blockhash;
      param_array['blocktime']= blocktime;
-     param_array['tx_count']=tx_count;
+     param_array['tx-count']=tx_count;
      callback(param_array);
      
       }

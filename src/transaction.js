@@ -59,7 +59,7 @@ module.exports = class Transaction {
     });
     req.end(function (response) {
     if (response.error){
-        //console.log(response.error);
+        console.log(response.error);
         throw new Error(response.error);
      }
       else{
@@ -91,7 +91,7 @@ module.exports = class Transaction {
     });
     req.end(function (response) {
     if (response.error){
-        //console.log(response.error);
+        console.log(response.error);
         throw new Error(response.error);
      }
       else{
@@ -173,12 +173,10 @@ retrieveTransaction(txid, callback){
       else{
      
      var result = response.body; 
-     hex = result['result']['hex'];
      var hexdata = result['result']['data'][0];
      data = Buffer.from(hexdata, 'hex').toString('utf8');
      amount = result['result']['vout'][0]['value'];
       }
-      params_array['hex'] = hex;
       params_array['data'] = data;
       params_array['amount'] = amount;
       callback(params_array);
