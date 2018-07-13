@@ -105,11 +105,11 @@ retrieveBlocks function call:
 
 ``` {.sourceCode .nodejs}
 
-retrieveBlocks(block\_range)
+retrieveBlocks(block_range)
 
-var block = new recordskeeper.Block(); \#object of class block
+var block = new recordskeeper.Block(); #object of class block
 
-block.retrieveBlocks(block\_range, function(response){ #retrieveBlocks() function call
+block.retrieveBlocks(block_range, function(response){ #retrieveBlocks() function call
 
 console.log(response['blockhash']) #prints hash of the blocks
 console.log(response['miner']) #prints miner of the blocks
