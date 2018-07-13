@@ -1,6 +1,5 @@
----
-title: Stream Class Usage
-...
+Stream Class Usage 
+========================
 
 Library to work with RecordsKeeper streams.
 
@@ -12,7 +11,7 @@ Libraries
 
 Import recordskeepr library first to get started with the functionality.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var recordskeeper = require('recordskeeper'); 
 ```
 
@@ -21,7 +20,7 @@ Creating Connection
 
 Config file to import config parameters:
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var config = require('./config.json');
 ```
 
@@ -30,7 +29,7 @@ Importing chain url and chain name from config file:
 -   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
 -   Chain-name: chain name
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_host = config['rk_host'];
 
 var rk_chain = config['rk_chain'];
@@ -45,7 +44,7 @@ the node:
 -   User name: The rpc user is used to call the APIs.
 -   Password: The rpc password is used to authenticate the APIs.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_user = config['rk_user'];
 
 var rk_pass = config['rk_pass'];
@@ -74,7 +73,7 @@ You have to pass these four arguments to the publish function call:
 
 The **data.hex()** will convert the data into a hex value
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 publish(address, stream, key, data, callback)
 
 var stream = new recordskeeper.Streams(); #object of class Stream   
@@ -97,7 +96,7 @@ You have to pass these two arguments to the retrieve function call:
 -   Stream name: which you want to access
 -   Transaction id: id of the data you want to retrieve
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 retrieve(stream, txid)         
 
 var stream = new recordskeeper.Streams(); #object of class Stream
@@ -121,7 +120,7 @@ function call:
 -   Publisher address: address of the data publisher you want to verify
 -   Count: no of items you want to retrieve
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 retrieveWithAddress(stream, address, count, callback)
 
 var stream = new recordskeeper.Streams(); #object of class Stream
@@ -147,7 +146,7 @@ call:
 -   Key: key value of the published data you want to verify
 -   Count: no of items you want to retrieve
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 retrieveWithKey(stream, key, count, callback)
 
 var stream = new recordskeeper.Streams(); #object of class Stream
@@ -174,7 +173,7 @@ call:
 -   Data: against which you want to make a query
 -   Count: count of items which will be queried
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 verifyData(stream, data, count, callback)
 
 var stream = new recordskeeper.Streams(); #object of class Stream
@@ -196,7 +195,7 @@ You have to pass these two arguments to the verifyWithKey function call:
 -   Stream name: which you want to access
 -   Count: count of items which will be queried
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 retrieveItems(stream, count, callback)
 
 var stream = new recordskeeper.Streams(); #object of class Stream
