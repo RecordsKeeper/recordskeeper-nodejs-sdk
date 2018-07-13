@@ -1,6 +1,5 @@
----
-title: Wallet Class Usage
-...
+Wallet Class Usage 
+========================
 
 Library to work with RecordsKeeper wallet functionalities.
 
@@ -15,7 +14,7 @@ Libraries
 
 Import recordskeepr library first to get started with the functionality.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var recordskeeper = require('recordskeeper');  
 ```
 
@@ -24,7 +23,7 @@ Creating Connection
 
 Config file to import config parameters:
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var config = require('./config.json');
 ```
 
@@ -33,7 +32,7 @@ Importing chain url and chain name from config file:
 -   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
 -   Chain-name: chain name
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_host = config['rk_host'];
 
 var rk_chain = config['rk_chain'];
@@ -48,7 +47,7 @@ the node:
 -   User name: The rpc user is used to call the APIs.
 -   Password: The rpc password is used to authenticate the APIs.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_user = config['rk_user'];
 
 var rk_pass = config['rk_pass'];
@@ -72,7 +71,7 @@ and verify message functions on RecordsKeeeper Blockchain.
 createWallet() function is used to create wallet on RecordsKeeper
 blockchain
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 createWallet(callback)  
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -97,7 +96,7 @@ You have to pass address argument to the getPrivateKey function call:
 getPrivateKey() function is used to retrieve private key of the given
 address.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 getPrivateKey(public_address)
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -116,7 +115,7 @@ It will return private key of the given address.
 retrieveWalletinfo() function is used to retrieve node wallet's
 information.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 retrieveWalletinfo(callback)
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -142,7 +141,7 @@ call:
 
 backupWallet() function is used to create backup of the wallet.dat file.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 backupWallet(filename, callback) 
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -171,7 +170,7 @@ call:
 
 importWallet() function is used to import wallet's backup file.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 importWallet(filename, callback) 
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -196,7 +195,7 @@ You have to pass these three arguments to the dumpWallet function call:
 dumpWallet() function is used to retrieve transaction's information by
 passing transaction id to the function.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 dumpWallet(filename, callback)
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -223,7 +222,7 @@ call:
 lockWallet() function is used to verify transaction's information by
 passing transaction id and sender's address to the function.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 lockWallet(password, callback)
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet 
@@ -254,7 +253,7 @@ You have to pass these two arguments to the unlockWallet function call:
 unlockWallet() function is used to verify transaction's information by
 passing transaction id and sender's address to the function.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 unlockWallet(password, unlock_time, callback)
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -282,7 +281,7 @@ function call:
 changeWalletPassword() function is used to change wallet's password and
 set new password.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 changeWalletPassword(old_password, new_password, callback)
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -306,7 +305,7 @@ You have to pass these two arguments to the signMessage function call:
 signMessage() function is used to change wallet's password and set new
 password.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 signMessage(private_key, message, callback)
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
@@ -331,7 +330,7 @@ call:
 verifyMessage() function is used to change wallet's password and set new
 password.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 verifyMessage(address, signedMessage, message, callback)
 
 var wallet = new recordskeeper.Wallet(); #object of class wallet
