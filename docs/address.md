@@ -1,6 +1,5 @@
----
-title: Address Class Usage
-...
+Address Class Usage 
+========================
 
 Library to work with RecordsKeeper addresses.
 
