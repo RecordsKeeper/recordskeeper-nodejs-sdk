@@ -1,5 +1,8 @@
 Permissions Class Usage 
 ========================
+Library to work with RecordsKeeper permissions.
+
+You can grant and revoke permissions like connect, send, receive, create, issue, mine, activate, admin by using Assets class. You just have to pass parameters to invoke the pre-defined functions.
 
 Libraries
 =========
