@@ -1,6 +1,5 @@
----
-title: Block Class Usage
-...
+Block Class Usage 
+========================
 
 Library to work with RecordsKeeper block informaion.
 
@@ -12,7 +11,7 @@ Libraries
 
 Import recordskeepr library first to get started with the functionality.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var recordskeeper = require('recordskeeper');  
 ```
 
