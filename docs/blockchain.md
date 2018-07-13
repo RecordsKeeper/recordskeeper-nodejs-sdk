@@ -1,6 +1,5 @@
----
-title: Blockchain Class Usage
-...
+Blockchain Class Usage 
+========================
 
 Library to work with Blockchain in RecordsKeeper Blockchain.
 
@@ -14,7 +13,7 @@ Libraries
 
 Import recordskeepr library first to get started with the functionality.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var recordskeeper = require('recordskeeper');  
 ```
 
@@ -23,7 +22,7 @@ Creating Connection
 
 Config file to import config parameters:
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var config = require('./config.json');
 ```
 
@@ -32,7 +31,7 @@ Importing chain url and chain name from config file:
 -   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
 -   Chain-name: chain name
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_host = config['rk_host'];
 
 var rk_chain = config['rk_chain'];
@@ -47,7 +46,7 @@ the node:
 -   User name: The rpc user is used to call the APIs.
 -   Password: The rpc password is used to authenticate the APIs.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_user = config['rk_user'];
 
 var rk_pass = config['rk_pass'];
@@ -72,7 +71,7 @@ Blockchain.
 
 getChainInfo() function is used to retrieve Blockchain parameters.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 getChainInfo(callback)  
 
 var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
@@ -99,7 +98,7 @@ parameters.
 getNodeInfo() function is used to retrieve node's information on
 RecordsKeeper Blockchain.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 getNodeInfo(callback) 
 
 var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
@@ -122,7 +121,7 @@ Blockchain**
 
 permissions() function is used to retrieve node's permissions.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 permissions(callback)
 
 var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
@@ -143,7 +142,7 @@ getpendingTransactions() function is used to retrieve pending
 transaction's information like no of pending transactions and the
 pending transactions.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 getpendingTransactions(callback) 
 
 var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
@@ -164,7 +163,7 @@ Blockchain.
 checkNodeBalance() function is used to check the total balance of the
 node.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 checkNodeBalance(callback)
 
 var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
