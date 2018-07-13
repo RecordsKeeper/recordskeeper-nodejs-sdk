@@ -1,6 +1,5 @@
----
-title: Transaction Class Usage
-...
+Transaction Class Usage 
+========================
 
 Library to work with RecordsKeeper transactions.
 
@@ -14,7 +13,7 @@ Libraries
 
 Import recordskeepr library first to get started with the functionality.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var recordskeeper = require('recordskeeper');  
 ```
 
@@ -23,7 +22,7 @@ Creating Connection
 
 Config file to import config parameters:
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var config = require('./config.json');
 ```
 
@@ -32,7 +31,7 @@ Importing chain url and chain name from config file:
 -   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
 -   Chain-name: chain name
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_host = config['rk_host'];
 
 var rk_chain = config['rk_chain'];
@@ -47,7 +46,7 @@ the node:
 -   User name: The rpc user is used to call the APIs.
 -   Password: The rpc password is used to authenticate the APIs.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_user = config['rk_user'];
 
 var rk_pass = config['rk_pass'];
@@ -78,7 +77,7 @@ call:
 sendTransaction() function is used to send transaction by passing
 reciever's address, sender's address and amount.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 sendTransaction(sender_address, reciever_address, data, amount, callback)
 
 var tx = new recordskeeper.Transaction(); #object of class Transaction  
@@ -106,7 +105,7 @@ sendSignedTransaction() function is used to send transaction by passing
 reciever's address, sender's address, private key of sender and amount.
 In this function private key is required to sign transaction.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 sendSignedTransaction(sender_address, reciever_address, amount, private_key, data, callback) 
 
 var tx = new recordskeeper.Transaction(); #object of class Transaction 
@@ -132,7 +131,7 @@ function call:
 createRawTransaction() function is used to create raw transaction by
 passing reciever's address, sender's address and amount.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 createRawTransaction(sender_address, reciever_address, amount, data, callback)  
 
 var tx = new recordskeeper.Transaction(); #object of class Transaction
@@ -158,7 +157,7 @@ signRawTransaction() function is used to sign raw transaction by passing
 transaction hex of the raw transaction and the private key to sign the
 raw transaction.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 signRawTransaction(txhex, private_key, callback)
 
 var tx = new recordskeeper.Transaction(); #object of class Transaction
@@ -182,7 +181,7 @@ function call:
 sendRawTransaction() function is used to send raw transaction by passing
 signed transaction hex of the raw transaction.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 sendRawTransaction(signedtxhex, callback)
 
 var tx = new recordskeeper.Transaction(); #object of class Transaction 
@@ -207,7 +206,7 @@ call:
 retrieveTransaction() function is used to retrieve transaction's
 information by passing transaction id to the function.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 retrieveTransaction(txid, callback)
 
 var tx = new recordskeeper.Transaction(); #object of class Transaction
@@ -234,7 +233,7 @@ You have to pass these two arguments to the getFee function call:
 getFee() function is used to calculate transaction's fee by passing
 transaction id and sender's address to the function.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 getFee(address, txid, callback)
 
 var tx = new recordskeeper.Transaction(); #object of class Transaction
