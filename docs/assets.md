@@ -1,4 +1,4 @@
-Asset Class Usage 
+Assets Class Usage 
 ========================
 
 Library to work with RecordsKeeper assets.
