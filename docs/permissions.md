@@ -1,13 +1,12 @@
----
-title: Permissions Class Usage
-...
+Permissions Class Usage 
+========================
 
 Libraries
 =========
 
 Import recordskeepr library first to get started with the functionality.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var recordskeeper = require('recordskeeper'); 
 ```
 
@@ -16,7 +15,7 @@ Creating Connection
 
 Config file to import config parameters:
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var config = require('./config.json');
 ```
 
@@ -25,7 +24,7 @@ Importing chain url and chain name from config file:
 -   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
 -   Chain-name: chain name
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_host = config['rk_host'];
 
 var rk_chain = config['rk_chain'];
@@ -40,7 +39,7 @@ the node:
 -   User name: The rpc user is used to call the APIs.
 -   Password: The rpc password is used to authenticate the APIs.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_user = config['rk_user'];
 
 var rk_pass = config['rk_pass'];
@@ -69,7 +68,7 @@ grantPermission() function is used to grant permissions like connect,
 send, receive, create, issue, mine, activate, admin to an address on
 RecordsKeeper Blockchain.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 grantPermission(address, permissions, callback)
 
 var permission = new recordskeeper.Permissions(); #object of class Permissions  
@@ -95,7 +94,7 @@ revokePermission() function is used to revoke permissions like connect,
 send, receive, create, issue, mine, activate, admin to an address on
 RecordsKeeper Blockchain.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 revokePermission(address, permissions, callback) 
 
 var permission = new recordskeeper.Permissions(); #object of class Permissions
