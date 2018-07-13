@@ -12,7 +12,7 @@ Libraries
 Import these python libraries first to get started with the
 functionality.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var recordskeeper = require('recordskeeper');  
 ```
 
@@ -21,7 +21,7 @@ Creating Connection
 
 Config file to import config parameters:
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var config = require('./config.json');
 ```
 
@@ -30,7 +30,7 @@ Importing chain url and chain name from config file:
 -   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
 -   Chain-name: chain name
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_host = config['rk_host'];
 
 var rk_chain = config['rk_chain'];
@@ -45,7 +45,7 @@ the node:
 -   User name: The rpc user is used to call the APIs.
 -   Password: The rpc password is used to authenticate the APIs.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_user = config['rk_user'];
 
 var rk_pass = config['rk_pass'];
@@ -66,7 +66,7 @@ Blockchain.
 
 createAsset() function is used to create or issue an asset.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 createAsset(address, asset_name, asset_qty, callback) 
 
 var asset = new recordskeeper.Assets(); #object of class address 
@@ -91,7 +91,7 @@ You have to pass these three arguments to the createAsset function call:
 
 sendAsset() function is used to send an asset.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 sendAsset(address, assetname, qty, callback)  
 
 var asset = new recordskeeper.Assets(); #object of class address 
@@ -111,7 +111,7 @@ retrieveAssets() function is used to list all assets, no of assets,
 issued quantity and issued transaction id of all the assets on
 RecordsKeeper Blockchain.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 retrieveAssets(callback) 
 
 var asset = new recordskeeper.Assets(); #object of class address 
