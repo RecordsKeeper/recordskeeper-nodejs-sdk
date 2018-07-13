@@ -20,7 +20,7 @@ Creating Connection
 
 Config file to import config parameters:
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var config = require('./config.json');
 ```
 
@@ -29,7 +29,7 @@ Importing chain url and chain name from config file:
 -   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
 -   Chain-name: chain name
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_host = config['rk_host'];
 
 var rk_chain = config['rk_chain'];
@@ -44,7 +44,7 @@ the node:
 -   User name: The rpc user is used to call the APIs.
 -   Password: The rpc password is used to authenticate the APIs.
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 var rk_user = config['rk_user'];
 
 var rk_pass = config['rk_pass'];
@@ -70,7 +70,7 @@ function call:
 
 -   Block height: height of the block of which you want to collect info
 
-``` {.sourceCode .python}
+``` {.sourceCode .nodejs}
 blockinfo(block_height, callback)
 
 var block = new recordskeeper.Block(); #object of class block
@@ -103,24 +103,21 @@ retrieveBlocks function call:
 
 -   Block range: range of the block of which you want to collect info
 
-. code-block:: python
+``` {.sourceCode .nodejs}
 
-> . code-block:: python
->
-> retrieveBlocks(block\_range)
->
-> var block = new recordskeeper.Block(); \#object of class block
->
-> block.retrieveBlocks(block\_range, function(response){
-> \#retrieveBlocks() function call
->
-> console.log(response\['blockhash'\]) \#prints hash of the blocks
-> console.log(response\['miner'\]) \#prints miner of the blocks
-> console.log(response\['blocktime'\]) \#prints block time of the blocks
-> console.log(response\['tx-count'\]) \#prints transaction count of the
-> blocks
->
-> });
+retrieveBlocks(block\_range)
+
+var block = new recordskeeper.Block(); \#object of class block
+
+block.retrieveBlocks(block\_range, function(response){ #retrieveBlocks() function call
+
+console.log(response['blockhash']) #prints hash of the blocks
+console.log(response['miner']) #prints miner of the blocks
+console.log(response['blocktime']) #prints block time of the blocks
+console.log(response['tx-count']) #prints transaction count of the blocks
+
+});
+```
 
 It will return blockhash, miner address, blocktime and transaction count
 of the blocks.
