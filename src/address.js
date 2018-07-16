@@ -1,7 +1,7 @@
 'use strict';
 var unirest = require("unirest");
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../config.json'));
+var config = require(path.resolve( __dirname,'../../../config.json'));
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
 var rk_pass = config['rk_pass'];
@@ -155,11 +155,6 @@ getMultisigWalletAddress(required, key, callback) {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
      valid = result['result']['isvalid'];
      if (valid == true){
@@ -169,7 +164,6 @@ getMultisigWalletAddress(required, key, callback) {
         addressCheck = "Address is invalid";
       }
     callback(addressCheck);
-      }
     });
   }
 

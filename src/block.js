@@ -1,5 +1,5 @@
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../config.json'));
+var config = require(path.resolve( __dirname,'../../../config.json'));
 var unirest = require("unirest");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
@@ -38,12 +38,11 @@ module.exports = class Block {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
+     var status = result['result'];
+     if(status == null){
+        param_array = result['error']['message'];
+     } else {
      var count = result['result']['tx'];
      miner = result['result']['miner'];
      size = result['result']['size'];
@@ -69,8 +68,8 @@ module.exports = class Block {
      param_array['merkleroot']= merkleroot;
      param_array['blocktime']= blocktime;
      param_array['difficulty']= difficulty;
+ }
      callback(param_array);
-      }
     }); 
   }
 
@@ -99,13 +98,11 @@ retrieveBlocks(block_range, callback){
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      result = response.body; 
      var count = result['result'];
+     if (count == null){
+        param_array = result['error']['message'];
+     } else {
      var block_count = count.length;
      for (var i= 0; i< block_count; i++){
      	miner.push(result['result'][i]['miner']);
@@ -117,9 +114,8 @@ retrieveBlocks(block_range, callback){
      param_array['blockhash']= blockhash;
      param_array['blocktime']= blocktime;
      param_array['tx-count']=tx_count;
+ }
      callback(param_array);
-     
-      }
     });
   }
 

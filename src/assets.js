@@ -55,15 +55,15 @@ module.exports = class Assets {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
+    
      var result = response.body; 
      txid = result['result'];
+     if(txid == null){
+        txid = result['error']['message'];
+     } else {
+       txid = result['result']; 
+     }
      callback(txid);
-      }
     }); 
   }
 

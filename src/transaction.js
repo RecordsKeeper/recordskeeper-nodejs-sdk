@@ -27,15 +27,16 @@ module.exports = class Transaction {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        //console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
+    
      var result = response.body; 
      txid = result['result'];
+     txid = result['result'];
+     if(txid == null){
+        txid = result['error']['message'];
+     } else {
+       txid = result['result']; 
+     }
      callback(txid);
-      }
     });
   }
 
@@ -58,15 +59,15 @@ module.exports = class Transaction {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
+    
      var result = response.body; 
      txhex = result['result'];
+     if(txhex == null){
+        txhex = result['error']['message'];
+     } else {
+       txhex = result['result']; 
+     }
      callback(txhex);
-      }
     });
   }
 
@@ -74,6 +75,8 @@ module.exports = class Transaction {
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var priv_key = [];
+ var status;
+ var tx_status;
  priv_key.push(private_key);
  var signedtxhex;
  req.headers({
@@ -90,15 +93,19 @@ module.exports = class Transaction {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body;
-     signedtxhex = result['result']['hex'];
+     tx_status = result['result'];
+     if(tx_status == null){
+        signedtxhex = result['error']['message'];
+     } else {
+        status = result['result']['complete'];
+        if(status == true){
+        signedtxhex = result['result']['hex'];
+     } else {
+        signedtxhex = "Transaction has not been signed."
+     }
+ }
      callback(signedtxhex);
-      }
     }); 
   }
 
@@ -106,7 +113,6 @@ module.exports = class Transaction {
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var txid;
- var tx;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -122,12 +128,12 @@ module.exports = class Transaction {
     });
     req.end(function (response) {
      var result = response.body; 
-     tx = result['result'];
-     if(tx === null){
+     txid = result['result'];
+     if(txid === null){
      txid = result['error']['message'];
       }
      else {
-        txid = tx; 
+        txid = result['result'];
      }
      callback(txid);
     });
@@ -166,19 +172,19 @@ retrieveTransaction(txid, callback){
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      
      var result = response.body; 
+     var status = result['result'];
+     if(status == null){
+        params_array = result['error']['message'];
+     }
+     else {
      var hexdata = result['result']['data'][0];
      data = Buffer.from(hexdata, 'hex').toString('utf8');
      amount = result['result']['vout'][0]['value'];
-      }
       params_array['data'] = data;
       params_array['amount'] = amount;
+    }
       callback(params_array);
     });
   }
@@ -201,18 +207,17 @@ retrieveTransaction(txid, callback){
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      
      var result = response.body; 
+     var status = result['result'];
+     if(status == null){
+        fee = result['error']['message'];
+     } else {
      var sent_amount = result['result']['vout'][0]['amount'];
      var balance_amount = result['result']['balance']['amount'];
      fee = Math.abs(balance_amount) - sent_amount;
+ }
      callback(fee);
-      }
     }); 
   }
 

@@ -1,5 +1,5 @@
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../config.json'));
+var config = require(path.resolve( __dirname,'../../../config.json'));
 var unirest = require("unirest");
 var rk_host = config['rk_host'];
 var rk_user = config['rk_user'];
@@ -27,15 +27,16 @@ module.exports = class Stream {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response);
-        throw new Error(response.error);
-     }
-      else{
+    
      var result = response.body; 
      txid = result['result'];
+     if(txid == null){
+        txid = result['error']['message'];
+     } else {
+       txid = result['result']; 
+     }
      callback(txid);
-      }
+    
     });
      
       
@@ -45,6 +46,7 @@ module.exports = class Stream {
  var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
  var req = unirest("POST", rk_host);
  var data;
+ var status;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -59,16 +61,15 @@ module.exports = class Stream {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
+     status = result['result'];
+     if(status == null){
+        data = result['error']['message'];
+     } else {
      var hexdata = result['result']['data'];
      data = Buffer.from(hexdata, 'hex').toString('utf8');
-     callback(data);
-      }
+     }
+      callback(data);
     });
   }
 
@@ -78,6 +79,8 @@ module.exports = class Stream {
  var data;
  var key;
  var txid;
+ var status;
+ var result;
  var result_data = [];
  var key_values = [];
  var total_txid = [];
@@ -96,13 +99,13 @@ module.exports = class Stream {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response);
-        throw new Error(response.error);
-     }
-      else{
-     for (var i = 0; i <=count - 1; i++){
-        var result = response.body; 
+    result = response.body;
+    status = result['result'];
+     if(status == null){
+        params_array = result['error']['message'];
+     } else {
+     var length = status.length;
+     for (var i = 0; i < length; i++){
         var hexdata = result['result'][i]['data'];
         var data = Buffer.from(hexdata, 'hex').toString('utf8');
         var txid = result['result'][i]['txid'];
@@ -110,11 +113,12 @@ module.exports = class Stream {
         result_data.push(data);
         total_txid.push(txid);
         key_values.push(key);
-      }
-      }
+       }
+     
      params_array['key'] = key_values;
      params_array['txid'] = total_txid;
      params_array['data'] = result_data;
+      }
      callback(params_array);
     });
   }
@@ -125,6 +129,8 @@ module.exports = class Stream {
  var data;
  var publisher;
  var txid;
+ var result;
+ var status;
  var result_data = [];
  var publishers = [];
  var total_txid = [];
@@ -143,15 +149,13 @@ module.exports = class Stream {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
-     
-
-     for (var i = 0; i <=count - 1; i++){
-        var result = response.body; 
+     result = response.body;
+     status = result['result'];
+     if(status == null){
+        params_array = result['error']['message'];
+     } else {
+     var length = status.length;
+     for (var i = 0; i < length; i++){ 
         var hexdata = result['result'][i]['data'];
         publisher = result['result'][i]['publishers'];
         txid = result['result'][i]['txid'];
@@ -159,11 +163,11 @@ module.exports = class Stream {
         result_data.push(data);
         total_txid.push(txid);
         publishers.push(publisher);
-      }
-      }
+       }
      params_array['publishers'] = publishers;
      params_array['txid'] = total_txid;
      params_array['data'] = result_data;
+ }
      callback(params_array);
     });
   }
@@ -174,6 +178,8 @@ module.exports = class Stream {
  var stream_data;
  var result_data = [];
  var res;
+ var result;
+ var status;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -188,12 +194,14 @@ module.exports = class Stream {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
-     for (var i = 0; i <=count-1; i++){
+     result = response.body;
+     status = result['result'];
+     
+     if(status == null){
+        res = result['error']['message'];
+     } else {
+     var length = status.length;
+     for (var i = 0; i < length; i++){
      var result = response.body; 
      var hexdata = result['result'][i]['data'];
      stream_data = Buffer.from(hexdata, 'hex').toString('utf8');
@@ -205,8 +213,8 @@ module.exports = class Stream {
         else{
         res = "No data found.";
      }
+    }
       callback(res);
-      }
     });
   }
 
@@ -218,6 +226,8 @@ module.exports = class Stream {
  var key_values = [];
  var total_txid = [];
  var params_array = {};
+ var result;
+ var status;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -232,13 +242,15 @@ module.exports = class Stream {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
+    result = response.body;
+    status = result['result'];
+    
+     if(status == null){
+        params_array = result['error']['message'];
+     } else {
 
-     	for (var i = 0; i <=count; i++){
+        var length = status.length;
+     	for (var i = 0; i < length; i++){
      	var result = response.body; 
         var hexdata = result['result'][i]['data'];
         var data = Buffer.from(hexdata, 'hex').toString('utf8');
@@ -254,8 +266,8 @@ module.exports = class Stream {
       params_array['txid'] = total_txid;
       params_array['key'] = key_values;
       params_array['data'] = result_data;
+  }
       callback(params_array);
-      }
     });
   }
 

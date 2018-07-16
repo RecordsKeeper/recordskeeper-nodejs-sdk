@@ -12,6 +12,7 @@ importAddress(public_address, callback) {
       var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
       var req = unirest("POST", rk_host);
       var status;
+      var resp;
  
      req.headers({
     "cache-control": "no-cache",
@@ -27,15 +28,17 @@ importAddress(public_address, callback) {
     "chain_name": rk_chain
     });
     req.end(function (response) {
-    if (response.error){
-        console.log(response.error);
-        throw new Error(response.error);
-     }
-      else{
      var result = response.body; 
      status = result['result'];
-     callback(status);
- }  
+     var error = result['error'];
+     if (status == null & error == null){
+        resp = "Address successfully imported";
+     } else if((status == null & error != null)){
+        resp = error['message'];
+     } else {
+        resp = 0;
+     }
+     callback(resp); 
   });
 }
 
@@ -384,12 +387,16 @@ verifyMessage(address, signedMessage, message, callback) {
     req.end(function (response) {
      var result = response.body; 
      status = result['result']; 
+     if (status == null){
+        valid = result['error']['message'];
+     } else {
      if(status == true){
         valid = "Message is verified";
      }  
      else {
         valid = "Message is incorrect";
      }
+ }
      callback(valid);
     });
 }
