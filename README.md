@@ -80,6 +80,11 @@ Importing user name and password values from config file to authenticate the nod
 
 ## Unit Tests
 
+First install the mocha framework by running the following command:
+```bash
+npm install --save-dev mocha
+```
+
 Under node_modules/recordskeeper. 
 
 - To run all the test cases:
