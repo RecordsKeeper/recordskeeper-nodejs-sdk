@@ -106,7 +106,7 @@ npm test test_name
 
 ## Documentation
 
-The complete docs are here: [RecordsKeeper python library documentation](https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk/tree/master/docs/source).
+The complete docs are here: [RecordsKeeper nodejs-sdk documentation](https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk/tree/master/docs).
 
 
 ## License
