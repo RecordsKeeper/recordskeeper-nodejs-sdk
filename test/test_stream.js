@@ -33,7 +33,6 @@ describe('#publish', function() {
         var key = response['key'][0];
         assert.equal(key, 'test');
         var txid = response['txid'][0];
-        console.log(txid);
         assert.equal(txid, 'a25958e2affed78050f10b84be66316df7eda4b76c18bdfc7c69d528dd2ccbc1');
         var data = response['data'][0];
         assert.equal(data, 'This is test data');
@@ -78,7 +77,6 @@ describe('#publish', function() {
     it('should convert single digits', function(done) {
         s.retrieveItems(stream, 10, function(response){
         var publisher = response['publishers'][0];
-        console.log(publisher);
         assert.equal(publisher, validaddress);
         var txid = response['txid'][0];
         assert.equal(txid, '8811dbd4c9b6ed537cf4b1552cddcc8751987e284f45ebf0649b5bb2d9078915');

@@ -30,10 +30,8 @@ describe('#sendAsset', function() {
  describe('#retrieveAssets', function() {
     it('should retrieve asset information', function(done) {
         As.retrieveAsset(function(response){
-        console.log(response);
         var name = response['asset_name'][0];
         assert.equal(name, 'testasset');
-        console.log(name);
         var id = response['issue_id'][0];
         assert.equal(id, "7d6e52a1d0cfa9662709a7b2724c2ffc03701defc618481b59da4cd18fa20ddd");
         var qty = response['issue_qty'][0];

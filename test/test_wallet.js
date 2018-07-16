@@ -76,7 +76,7 @@ describe('#retrieveWalletInfo', function() {
     });
   });
 
- /* describe('#lockWallet', function() {
+  describe('#lockWallet', function() {
     it('should convert single digits', function(done) {
         wall.lockWallet("wallet", function(response){
         assert.equal(response, 'Wallet is successfully encrypted');
@@ -101,7 +101,7 @@ describe('#retrieveWalletInfo', function() {
         done();
         });
     });
-  }); */
+  }); 
 
   describe('#signMessage', function() {
     it('should convert single digits', function(done) {
