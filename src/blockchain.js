@@ -169,7 +169,6 @@ module.exports = class Blockchain {
       	var result = response.body;
       	var count = result['result'];
       	tx_count = count['size'];
-        console.log(tx_count);
        if(tx_count!=0){
        req.headers({
       "cache-control": "no-cache",
