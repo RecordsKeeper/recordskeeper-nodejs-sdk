@@ -27,7 +27,7 @@ if(fileExists('./config.json')== true){
     config = require(path.resolve( __dirname,'../../../config.json'));
     validaddress = config['validaddress'];
 } else {
-    require('dotenv').config();
+    //require('dotenv').config();
     validaddress = process.env.validaddress;
 }
 

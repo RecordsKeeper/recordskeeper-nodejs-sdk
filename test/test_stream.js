@@ -31,7 +31,7 @@ if(fileExists('./config.json')== true){
     validaddress = config['validaddress'];
     txid = config['txid']; 
 } else {
-    require('dotenv').config();   
+    //require('dotenv').config();   
     stream = process.env.stream;
     validaddress = process.env.validaddress;
     txid = process.env.txid; 

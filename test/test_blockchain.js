@@ -43,7 +43,7 @@ if(fileExists('./config.json')== true){
     blockchain_name= config['chain-name'];
     nodeaddress = config['node-address'];
 } else {
-    require('dotenv').config();
+    //require('dotenv').config();
     blockchain_protocol = process.env.chain-protocol;
     blockchain_description = process.env.chain-description;
     blockchain_root_stream = process.env.chain-root-stream;

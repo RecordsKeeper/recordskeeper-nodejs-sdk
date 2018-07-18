@@ -24,13 +24,13 @@ function fileExists(path) {
 }
 
 if(fileExists('./config.json')== true){
-   config = require(path.resolve( __dirname,'../../../config.json'));
+    config = require(path.resolve( __dirname,'../../../config.json'));
     rk_host = config['rk_host'];
     rk_user = config['rk_user'];
     rk_pass = config['rk_pass'];
     rk_chain = config['rk_chain']; 
 } else {
-    require('dotenv').config();   
+    //require('dotenv').config();   
     rk_host = process.env.rk_host;
     rk_user = process.env.rk_user;
     rk_pass = process.env.rk_pass;

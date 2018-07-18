@@ -47,7 +47,7 @@ if(fileExists('./config.json')== true){
     block_difficulty = config['block-difficulty'];
     block_tx_count = config['block-tx-count'];
 } else {
-    require('dotenv').config();
+    //require('dotenv').config();
     validaddress = process.env.validaddress;
     block_miner = process.env.block-miner;
     block_size = process.env.block-size;

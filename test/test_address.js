@@ -37,7 +37,7 @@ if(fileExists('./config.json')== true){
     multisigkey = config['multisigkey'];
     multisigaddress = config['multisigaddress'];
 } else {
-    require('dotenv').config();
+    //require('dotenv').config();
     validaddress = process.env.validaddress;
     invalidaddress = process.env.invalidaddress;
     miningaddress = process.env.miningaddress;

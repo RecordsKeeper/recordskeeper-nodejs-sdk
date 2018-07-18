@@ -26,11 +26,11 @@ function fileExists(path) {
 }
 
 if(fileExists('./config.json')== true){
-    config = require(path.resolve( __dirname,'../../../config.json'));
+        config = require(path.resolve( __dirname,'../../../config.json'));
         miningaddress = config['miningaddress'];
         nonminingaddress = config['nonminingaddress'];
 } else {
-    require('dotenv').config();
+    //require('dotenv').config();
     miningaddress = process.env.miningaddress;
     nonminingaddress = process.env.nonminingaddress; 
 }

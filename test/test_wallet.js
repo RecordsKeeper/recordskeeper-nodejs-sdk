@@ -31,7 +31,7 @@ if(fileExists('./config.json')== true){
     priv_key = config['privatekey'];
     signedMessage = config['signedmessage'];
 } else {
-    require('dotenv').config();   
+    //require('dotenv').config();   
     priv_key = process.env.privatekey;
     signedMessage = process.env.signedMessage;
     validaddress = process.env.validaddress;

@@ -35,7 +35,7 @@ if(fileExists('./config.json')== true){
     signedtxhex = config['signedtxhex'];
     txid = config['txid'];
 } else {
-    require('dotenv').config();   
+    //require('dotenv').config();   
     txhex = process.env.txhex;
     priv_key = process.env.privatekey;
     signedtxhex = process.env.signedtxhex;
