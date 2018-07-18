@@ -1,14 +1,48 @@
 'use strict';
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
 var assert = require('assert');
 var Transaction = require('../src/transaction.js');
 var tx = new Transaction();
-var validaddress = config['validaddress'];
-var txhex = config['txhex'];
-var priv_key = config['privatekey'];
-var signedtxhex = config['signedtxhex'];
-var txid = config['txid'];
+var fs = require('fs');
+var config;
+var txhex;
+var validaddress;
+var txid;
+var signedtxhex;
+var priv_key;
+
+function fileExists(path) {
+
+  try  {
+    return fs.statSync(path).isFile();
+  }
+  catch (e) {
+
+    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
+      return false;
+    }
+
+    console.log("Exception fs.statSync (" + path + "): " + e);
+    throw e; // something else went wrong, we don't have rights, ...
+  }
+}
+
+if(fileExists('./config.json')== true){
+    config = require(path.resolve( __dirname,'../../../config.json'));
+    validaddress = config['validaddress'];
+    txhex = config['txhex'];
+    priv_key = config['privatekey'];
+    signedtxhex = config['signedtxhex'];
+    txid = config['txid'];
+} else {
+    require('dotenv').config();   
+    txhex = process.env.txhex;
+    priv_key = process.env.privatekey;
+    signedtxhex = process.env.signedtxhex;
+    validaddress = process.env.validaddress;
+    txid = process.env.txid; 
+}
+
 
 describe('#sendTransaction', function() {
     it('should send a transaction', function(done) {

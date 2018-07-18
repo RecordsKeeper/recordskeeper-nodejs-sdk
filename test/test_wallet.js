@@ -1,12 +1,41 @@
 'use strict';
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
 var assert = require('assert');
 var Wallet = require('../src/wallet.js');
 var wall = new Wallet();
-var validaddress = config['validaddress'];
-var priv_key = config['privatekey'];
-var signedMessage = config['signedmessage'];
+var fs = require('fs');
+var config;
+var validaddress;
+var signedMessage;
+var priv_key;
+
+function fileExists(path) {
+
+  try  {
+    return fs.statSync(path).isFile();
+  }
+  catch (e) {
+
+    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
+      return false;
+    }
+
+    console.log("Exception fs.statSync (" + path + "): " + e);
+    throw e; // something else went wrong, we don't have rights, ...
+  }
+}
+
+if(fileExists('./config.json')== true){
+    config = require(path.resolve( __dirname,'../../../config.json'));
+    validaddress = config['validaddress'];
+    priv_key = config['privatekey'];
+    signedMessage = config['signedmessage'];
+} else {
+    require('dotenv').config();   
+    priv_key = process.env.privatekey;
+    signedMessage = process.env.signedMessage;
+    validaddress = process.env.validaddress;
+}
 
 describe('#createWallet', function() {
     it('should convert single digits', function(done) {
@@ -58,15 +87,6 @@ describe('#retrieveWalletInfo', function() {
     });
   }); 
 
-  describe('#importWallet', function() {
-    it('should convert single digits', function(done) {
-        wall.importWallet("wallet", function(response){
-        assert.equal(response, 'Wallet is successfully imported');
-        done();
-        });
-    });
-  }); 
-
   describe('#dumpWallet', function() {
     it('should convert single digits', function(done) {
         wall.dumpWallet("wallet", function(response){
@@ -76,7 +96,17 @@ describe('#retrieveWalletInfo', function() {
     });
   });
 
-  describe('#lockWallet', function() {
+  describe('#importWallet', function() {
+    it('should convert single digits', function(done) {
+        wall.importWallet("wallet", function(response){
+        assert.equal(response, 'Wallet is successfully imported');
+        done();
+        });
+    });
+  }); 
+
+
+ /* describe('#lockWallet', function() {
     it('should convert single digits', function(done) {
         wall.lockWallet("wallet", function(response){
         assert.equal(response, 'Wallet is successfully encrypted');
@@ -101,7 +131,7 @@ describe('#retrieveWalletInfo', function() {
         done();
         });
     });
-  }); 
+  }); */
 
   describe('#signMessage', function() {
     it('should convert single digits', function(done) {

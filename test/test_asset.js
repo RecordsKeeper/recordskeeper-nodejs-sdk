@@ -1,10 +1,35 @@
 'use strict';
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
 var assert = require('assert');
 var Assets = require('../src/assets.js');
 var As = new Assets();
-var validaddress = config['validaddress'];
+var fs = require('fs');
+var config;
+var validaddress;
+
+function fileExists(path) {
+
+  try  {
+    return fs.statSync(path).isFile();
+  }
+  catch (e) {
+
+    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
+      return false;
+    }
+
+    console.log("Exception fs.statSync (" + path + "): " + e);
+    throw e; // something else went wrong, we don't have rights, ...
+  }
+}
+
+if(fileExists('./config.json')== true){
+    config = require(path.resolve( __dirname,'../../../config.json'));
+    validaddress = config['validaddress'];
+} else {
+    require('dotenv').config();
+    validaddress = process.env.validaddress;
+}
 
 describe('#createAsset', function() {
     it('should create new asset', function(done) {

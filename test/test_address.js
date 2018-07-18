@@ -1,15 +1,50 @@
 'use strict';
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
 var assert = require('assert');
 var Address = require('../src/address.js');
 var add = new Address();
-var validaddress = config['validaddress'];
-var invalidaddress = config['invalidaddress'];
-var miningaddress = config['miningaddress'];
-var nonminingaddress = config['nonminingaddress'];
-var multisigkey = config['multisigkey'];
-var multisigaddress = config['multisigaddress'];
+var fs = require('fs');
+var config;
+var validaddress;
+var invalidaddress;
+var miningaddress;
+var nonminingaddress;
+var multisigkey;
+var multisigaddress;
+
+function fileExists(path) {
+
+  try  {
+    return fs.statSync(path).isFile();
+  }
+  catch (e) {
+
+    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
+      return false;
+    }
+
+    console.log("Exception fs.statSync (" + path + "): " + e);
+    throw e; // something else went wrong, we don't have rights, ...
+  }
+}
+
+if(fileExists('./config.json')== true){
+    config = require(path.resolve( __dirname,'../../../config.json'));
+    validaddress = config['validaddress'];
+    invalidaddress = config['invalidaddress'];
+    miningaddress = config['miningaddress'];
+    nonminingaddress = config['nonminingaddress'];
+    multisigkey = config['multisigkey'];
+    multisigaddress = config['multisigaddress'];
+} else {
+    require('dotenv').config();
+    validaddress = process.env.validaddress;
+    invalidaddress = process.env.invalidaddress;
+    miningaddress = process.env.miningaddress;
+    nonminingaddress = process.env.nonminingaddress;
+    multisigkey = process.env.multisigkey;
+    multisigaddress = process.env.multisigaddress; 
+}
 
 describe('#getAddress', function() {
     it('should generate a new address', function(done) {
@@ -102,6 +137,7 @@ describe('#importAddress', function() {
         });
     });
  });
+
 
 
 

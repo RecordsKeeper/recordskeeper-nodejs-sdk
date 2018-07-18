@@ -4,8 +4,36 @@ var config = require(path.resolve( __dirname,'../../../config.json'));
 var assert = require('assert');
 var Permissions = require('../src/permissions.js');
 var per = new Permissions();
-var miningaddress = config['miningaddress'];
-var nonminingaddress = config['nonminingaddress'];
+var fs = require('fs');
+var config;
+var miningaddress;
+var nonminingaddress;
+
+function fileExists(path) {
+
+  try  {
+    return fs.statSync(path).isFile();
+  }
+  catch (e) {
+
+    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
+      return false;
+    }
+
+    console.log("Exception fs.statSync (" + path + "): " + e);
+    throw e; // something else went wrong, we don't have rights, ...
+  }
+}
+
+if(fileExists('./config.json')== true){
+    config = require(path.resolve( __dirname,'../../../config.json'));
+        miningaddress = config['miningaddress'];
+        nonminingaddress = config['nonminingaddress'];
+} else {
+    require('dotenv').config();
+    miningaddress = process.env.miningaddress;
+    nonminingaddress = process.env.nonminingaddress; 
+}
 
 describe('#grantPermissions', function() {
     it('should grant permission', function(done) {

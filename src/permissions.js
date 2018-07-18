@@ -1,10 +1,41 @@
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
 var unirest = require("unirest");
-var rk_host = config['rk_host'];
-var rk_user = config['rk_user'];
-var rk_pass = config['rk_pass'];
-var rk_chain = config['rk_chain'];
+var fs = require('fs');
+var config;
+var rk_host;
+var rk_user;
+var rk_pass;
+var rk_chain;
+
+function fileExists(path) {
+
+  try  {
+    return fs.statSync(path).isFile();
+  }
+  catch (e) {
+
+    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
+      return false;
+    }
+
+    console.log("Exception fs.statSync (" + path + "): " + e);
+    throw e; // something else went wrong, we don't have rights, ...
+  }
+}
+
+if(fileExists('./config.json')== true){
+   config = require(path.resolve( __dirname,'../../../config.json'));
+    rk_host = config['rk_host'];
+    rk_user = config['rk_user'];
+    rk_pass = config['rk_pass'];
+    rk_chain = config['rk_chain']; 
+} else {
+    require('dotenv').config();   
+    rk_host = process.env.rk_host;
+    rk_user = process.env.rk_user;
+    rk_pass = process.env.rk_pass;
+    rk_chain = process.env.rk_chain;
+}
 
 module.exports = class Permissions {
  grantPermissions(address, permissions, callback) {
