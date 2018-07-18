@@ -1,6 +1,5 @@
 'use strict';
 var path = require('path');
-var config = require(path.resolve( __dirname,'../../../config.json'));
 var assert = require('assert');
 var Permissions = require('../src/permissions.js');
 var per = new Permissions();
