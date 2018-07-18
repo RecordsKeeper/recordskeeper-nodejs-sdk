@@ -44,15 +44,15 @@ if(fileExists('./config.json')== true){
     nodeaddress = config['node-address'];
 } else {
     //require('dotenv').config();
-    blockchain_protocol = process.env.chain-protocol;
-    blockchain_description = process.env.chain-description;
-    blockchain_root_stream = process.env.chain-root-stream;
-    max_blocksize = process.env.max-block-size;
-    default_networkport = process.env.default-network-port;
-    default_rpcport = process.env.default-rpc-port;
-    blockchain_mining_diversity = process.env.mining-diversity;
-    blockchain_name= process.env.chain-name;
-    nodeaddress = process.env.node-address;
+    blockchain_protocol = process.env.chain_protocol;
+    blockchain_description = process.env.chain_description;
+    blockchain_root_stream = process.env.chain_root_stream;
+    max_blocksize = process.env.max_block_size;
+    default_networkport = process.env.default_network_port;
+    default_rpcport = process.env.default_rpc_port;
+    blockchain_mining_diversity = process.env.mining_diversity;
+    blockchain_name= process.env.chain_name;
+    nodeaddress = process.env.node_address;
 }
 
 

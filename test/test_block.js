@@ -49,16 +49,16 @@ if(fileExists('./config.json')== true){
 } else {
     //require('dotenv').config();
     validaddress = process.env.validaddress;
-    block_miner = process.env.block-miner;
-    block_size = process.env.block-size;
-    block_nonce = process.env.block-nonce;
+    block_miner = process.env.block_miner;
+    block_size = process.env.block_size;
+    block_nonce = process.env.block_nonce;
     block_hash = process.env.blockhash;
     previousblock_hash = process.env.previousblockhash;
     nextblock_hash =  process.env.nextblockhash;
-    merkle_root =  process.env.merkle-root;
-    block_time = process.env.block-time;
-    block_difficulty = process.env.block-difficulty;
-    block_tx_count = process.env.block-tx-count;
+    merkle_root =  process.env.merkle_root;
+    block_time = process.env.block_time;
+    block_difficulty = process.env.block_difficulty;
+    block_tx_count = process.env.block_tx_count;
 }
 
 
