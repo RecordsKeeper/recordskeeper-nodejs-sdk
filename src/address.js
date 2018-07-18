@@ -31,7 +31,7 @@ if(fileExists('./config.json')== true){
     rk_pass = config['rk_pass'];
     rk_chain = config['rk_chain']; 
 } else {
-    require('dotenv').config();   
+    //require('dotenv').config();   
     rk_host = process.env.rk_host;
     rk_user = process.env.rk_user;
     rk_pass = process.env.rk_pass;
