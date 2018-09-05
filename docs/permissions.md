@@ -61,22 +61,22 @@ the RecordsKeeeper Blockchain.
 
 **1. Grant Permissions to an address on the RecordsKeeper Blockchain**
 
-You have to pass these two arguments to the grantPermission function
+You have to pass these two arguments to the grantPermissions function
 call:
 
 -   Permissions: list of comma-seperated permissions passed as a string
 -   Address: to which you have to grant permission
 
-grantPermission() function is used to grant permissions like connect,
+grantPermissions() function is used to grant permissions like connect,
 send, receive, create, issue, mine, activate, admin to an address on
 RecordsKeeper Blockchain.
 
 ``` {.sourceCode .nodejs}
-grantPermission(address, permissions, callback)
+grantPermissions(address, permissions, callback)
 
 var permission = new recordskeeper.Permissions(); //object of class Permissions  
 
-permission.grantPermission(address, permissions, function(txid){ //grantPermission() function call   
+permission.grantPermissions(address, permissions, function(txid){ //grantPermissions() function call   
 
 console.log(txid)         //prints response of the grant permision transaction
 
