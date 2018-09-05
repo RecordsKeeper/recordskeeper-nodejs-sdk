@@ -69,11 +69,11 @@ createAsset() function is used to create or issue an asset.
 ``` {.sourceCode .nodejs}
 createAsset(address, asset_name, asset_qty, callback) 
 
-var asset = new recordskeeper.Assets(); #object of class address 
+var asset = new recordskeeper.Assets(); //object of class address 
 
-asset.createAsset(address, asset_name, asset_qty, function(txid){          #createAsset() function call   
+asset.createAsset(address, asset_name, asset_qty, function(txid){          //createAsset() function call   
 
-console.log(txid);                 # prints transaction id of the issued asset.
+console.log(txid);                 //prints transaction id of the issued asset.
 
 }); 
 ```
@@ -94,11 +94,11 @@ sendAsset() function is used to send an asset.
 ``` {.sourceCode .nodejs}
 sendAsset(address, assetname, qty, callback)  
 
-var asset = new recordskeeper.Assets(); #object of class address 
+var asset = new recordskeeper.Assets(); //object of class address 
 
-asset.sendAsset(address, asset_name, asset_qty, function(txid){          #sendAsset() function call   
+asset.sendAsset(address, asset_name, asset_qty, function(txid){          //sendAsset() function call   
 
-console.log(txid);                 # prints transaction id of the sent asset.
+console.log(txid);                 //prints transaction id of the sent asset.
 
 });
 ```
@@ -114,14 +114,14 @@ RecordsKeeper Blockchain.
 ``` {.sourceCode .nodejs}
 retrieveAssets(callback) 
 
-var asset = new recordskeeper.Assets(); #object of class address 
+var asset = new recordskeeper.Assets(); //object of class address 
 
-asset.retrieveAsset(function(response){      #retrieveAssets() function call
+asset.retrieveAsset(function(response){      //retrieveAssets() function call
 
-console.log(response['asset_name'])            #prints name of all the assets
-console.log(response['asset_count'])           #prints total asset count
-console.log(response['issue_id'])              #prints assets issued quantity
-console.log(response['issue_qty'])             #prints assets issued transaction id
+console.log(response['asset_name'])            //prints name of all the assets
+console.log(response['asset_count'])           //prints total asset count
+console.log(response['issue_id'])              //prints assets issued quantity
+console.log(response['issue_qty'])             //prints assets issued transaction id
 
 }); 
 ```
