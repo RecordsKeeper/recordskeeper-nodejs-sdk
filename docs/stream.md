@@ -97,19 +97,18 @@ You have to pass these two arguments to the retrieve function call:
 -   Transaction id: id of the data you want to retrieve
 
 ``` {.sourceCode .nodejs}
-retrieve(stream, txid)         
+retrieveData(stream, txid)         
 
 var stream = new recordskeeper.Streams(); //object of class Stream
 
-stream.retrieve(stream, txid, function(txid){   //call retrieve function with stream and txid as the required parameters 
+stream.retrieve(stream, txid, function(data){   //call retrieve function with stream and txid as the required parameters 
 
-console.log(txid)   //prints info of the transaction
+console.log(data)   //prints data published in the transaction
 
 }); 
 ```
 
-It will return the item's details like publisher address, key value,
-confirmations, hexdata and transaction id.
+It will return the data published in the transaction.
 
 **3. Retrieve an item against a particular publisher address**
 
@@ -178,7 +177,7 @@ verifyData(stream, data, count, callback)
 
 var stream = new recordskeeper.Streams(); //object of class Stream
 
-stream.verifyData(stream, key, count, function(response){   //call verifyData function with data as the required parameters
+stream.verifyData(stream, data, count, function(response){   //call verifyData function with data as the required parameters
 
 console.log(response); //prints if verification is successful or not
 
@@ -202,7 +201,7 @@ var stream = new recordskeeper.Streams(); //object of class Stream
 
 stream.retrieveItems(stream, count, function(response){   //call retrieveItems function with stream and count as the required parameters
 
-console.log(response['address'])   //prints address of the publisher of the item
+console.log(response['publishers'])   //prints address of the publisher of the item
 console.log(response['key'])       //prints key value of the stream itme
 console.log(response['data'])      //prints raw data published
 console.log(response['txid'])      //prints transaction id of the item published
