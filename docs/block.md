@@ -73,21 +73,21 @@ function call:
 ``` {.sourceCode .nodejs}
 blockinfo(block_height, callback)
 
-var block = new recordskeeper.Block(); #object of class block
+var block = new recordskeeper.Block(); //object of class block
 
-block.getblockinfo(function(response){          #getblockinfo() function call 
+block.blockinfo(function(response){          //blockinfo() function call 
 
-console.log(response['txcount'])      #prints transaction count of the block
-console.log(response['tx'])           #prints transaction ids of the block
-console.log(response['size'])         #prints size of the block
-console.log(response['blockhash'])    #prints hash value of the block
-console.log(response['nonce'])        #prints nonce of the block
-console.log(response['miner'])        #prints miner's address of the block
-console.log(response['nextblockhash'])    #prints next block's hash
-console.log(response['previousblockhash']) #prints previous block's hash
-console.log(response['merkleroot'])   #prints merkle root of the block
-console.log(response['blocktime'])    #prints time at which block is mined
-console.log(response['difficulty'])   #prints difficulty of the block
+console.log(response['tx_count'])      //prints transaction count of the block
+console.log(response['tx'])           //prints transaction ids of the block
+console.log(response['size'])         //prints size of the block
+console.log(response['blockhash'])    //prints hash value of the block
+console.log(response['nonce'])        //prints nonce of the block
+console.log(response['miner'])        //prints miner's address of the block
+console.log(response['nextblockhash'])  //prints next block's hash
+console.log(response['previousblockhash']) //prints previous block's hash
+console.log(response['merkleroot'])   //prints merkle root of the block
+console.log(response['blocktime'])    //prints time at which block is mined
+console.log(response['difficulty'])   //prints difficulty of the block
 
  });
 ```
@@ -107,14 +107,14 @@ retrieveBlocks function call:
 
 retrieveBlocks(block_range)
 
-var block = new recordskeeper.Block(); #object of class block
+var block = new recordskeeper.Block(); //object of class block
 
-block.retrieveBlocks(block_range, function(response){ #retrieveBlocks() function call
+block.retrieveBlocks(block_range, function(response){ //retrieveBlocks() function call
 
-console.log(response['blockhash']) #prints hash of the blocks
-console.log(response['miner']) #prints miner of the blocks
-console.log(response['blocktime']) #prints block time of the blocks
-console.log(response['tx-count']) #prints transaction count of the blocks
+console.log(response['blockhash']) //prints hash of the blocks
+console.log(response['miner']) //prints miner of the blocks
+console.log(response['blocktime']) //prints block time of the blocks
+console.log(response['tx-count']) //prints transaction count of the blocks
 
 });
 ```
