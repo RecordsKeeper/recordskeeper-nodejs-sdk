@@ -70,13 +70,13 @@ the node functions which are used on the RecordsKeeeper Blockchain.
 getAddress() function is used to generate a new wallet address.
 
 ``` {.sourceCode .nodejs}
-getAddress(callback) #getAddress function definition 
+getAddress(callback) //getAddress function definition 
 
-var addr = new recordskeeper.Address(); #object of class address
+var addr = new recordskeeper.Address(); //object of class address
 
-addr.getAddress(function(address){          #getAddress() function call   
+addr.getAddress(function(address){          //getAddress() function call   
 
-console.log(address);                 # prints a new address
+console.log(address);                 //prints a new address
 
 }); 
 ```
@@ -97,13 +97,13 @@ getMultisigAddress() function is used to generate a new multisignature
 address.
 
 ``` {.sourceCode .nodejs}
-getMultisigAddress(required, key, callback)  #getMultisigAddress function definition
+getMultisigAddress(required, key, callback)  //getMultisigAddress function definition
 
-var addr = new recordskeeper.Address(); #object of class address 
+var addr = new recordskeeper.Address(); //object of class address 
 
-addr.getMultisigAddress(required, key, function(address){           #getMultisigAddress() function call   
+addr.getMultisigAddress(required, key, function(address){           //getMultisigAddress() function call   
 
-console.log(address);                          # prints a new multisig address
+console.log(address);                          //prints a new multisig address
 
 }); 
 ```
@@ -124,13 +124,13 @@ getMultisigWalletAddress() function is used to generate a new wallet
 address.
 
 ``` {.sourceCode .nodejs}
-getMultisigWalletAddress(required, key, callback)  #getMultisigWalletAddress function definition
+getMultisigWalletAddress(required, key, callback)  //getMultisigWalletAddress function definition
 
-var addr = new recordskeeper.Address(); #object of class address 
+var addr = new recordskeeper.Address(); //object of class address 
 
-addr.getMultisigWalletAddress(required, key, function(address){         #getMultisigAddress() function call   
+addr.getMultisigWalletAddress(required, key, function(address){         //getMultisigAddress() function call   
 
-console.log(address);                          # prints a new multisig address
+console.log(address);                          //prints a new multisig address
 
 }); 
 ```
@@ -143,15 +143,15 @@ retrieveAddresses() function is used to list all addresses and no of
 addresses on the node's wallet.
 
 ``` {.sourceCode .nodejs}
-retrieveAddresses(callback)  #retrieveAddresses function definition
+retrieveAddresses(callback)  //retrieveAddresses function definition
 
-var addr = new recordskeeper.Address(); #object of class address 
+var addr = new recordskeeper.Address(); //object of class address 
 
-addr.retrieveAddresses(function(response){         #retrieveAddress() function call   
+addr.retrieveAddresses(function(response){         //retrieveAddress() function call   
 
-console.log(response['addresses']);                #prints all the addresses of the wallet
+console.log(response['addresses']);                //prints all the addresses of the wallet
 
-console.log(response['address_count']);             #prints the address count
+console.log(response['address_count']);             //prints the address count
 
 });
 ```
@@ -169,13 +169,13 @@ checkifValid() function is used to check validity of a particular
 address.
 
 ``` {.sourceCode .nodejs}
-checkifValid(address, callback)  #checkifValid function definition
+checkifValid(address, callback)  //checkifValid function definition
 
-var addr = new recordskeeper.Address(); #object of class address 
+var addr = new recordskeeper.Address(); //object of class address 
 
-addr.checkifValid(address, function(response){         #checkifValid() function call   
+addr.checkifValid(address, function(response){         //checkifValid() function call   
 
-console.log(response);                          # prints validity of the address
+console.log(response);                          //prints validity of the address
 
 });
 ```
@@ -194,13 +194,13 @@ transaction hex of the raw transaction and the private key to sign the
 raw transaction.
 
 ``` {.sourceCode .nodejs}
-checkifMineAllowed(address, callback)  #checkifMineAllowed function definition
+checkifMineAllowed(address, callback)  //checkifMineAllowed function definition
 
-var addr = new recordskeeper.Address(); #object of class address 
+var addr = new recordskeeper.Address(); //object of class address 
 
-addr.checkifMineAllowed(address, function(response){         #checkifMineAllowed() function call   
+addr.checkifMineAllowed(address, function(response){         //checkifMineAllowed() function call   
 
-console.log(response);                          # prints permission status of the given address
+console.log(response);                          //prints permission status of the given address
 
 });
 ```
@@ -217,13 +217,13 @@ call:
 checkBalance() function is used to check the balance of the address.
 
 ``` {.sourceCode .nodejs}
-checkBalance(address, callback)  #checkBalance function definition
+checkBalance(address, callback)  //checkBalance function definition
 
- var addr = new recordskeeper.Address(); #object of class address 
+ var addr = new recordskeeper.Address(); //object of class address 
 
- addr.checkBalance(address, function(balance){         #checkBalance() function call   
+ addr.checkBalance(address, function(balance){         //checkBalance() function call   
 
- console.log(balance);                          # prints balance of the address 
+ console.log(balance);                          //prints balance of the address 
 
  }); 
 ```
@@ -239,13 +239,13 @@ You have to pass address as argument to the importAddress function call:
 importAddress() function is used to check the balance of the address.
 
 ``` {.sourceCode .nodejs}
-importAddress(address, callback)  #importAddress function definition
+importAddress(address, callback)  //importAddress function definition
 
- var addr = new recordskeeper.Address(); #object of class address 
+ var addr = new recordskeeper.Address(); //object of class address 
 
- addr.importAddress(address, function(response){         #importAddress() function call   
+ addr.importAddress(address, function(response){         //importAddress() function call   
 
- console.log(response);                      # prints response whether address is successfully imported or not 
+ console.log(response);                      //prints response whether address is successfully imported or not 
 
  });  
 ```
