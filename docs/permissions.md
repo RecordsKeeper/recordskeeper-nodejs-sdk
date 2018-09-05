@@ -74,11 +74,11 @@ RecordsKeeper Blockchain.
 ``` {.sourceCode .nodejs}
 grantPermission(address, permissions, callback)
 
-var permission = new recordskeeper.Permissions(); #object of class Permissions  
+var permission = new recordskeeper.Permissions(); //object of class Permissions  
 
-block.grantPermission(address, permissions, function(txid){ #grantPermission() function call   
+permission.grantPermission(address, permissions, function(txid){ //grantPermission() function call   
 
-console.log(txid)         # prints response of the grant permision transaction
+console.log(txid)         //prints response of the grant permision transaction
 
 });
 ```
@@ -100,11 +100,11 @@ RecordsKeeper Blockchain.
 ``` {.sourceCode .nodejs}
 revokePermission(address, permissions, callback) 
 
-var permission = new recordskeeper.Permissions(); #object of class Permissions
+var permission = new recordskeeper.Permissions(); //object of class Permissions
 
-block.grantPermission(address, permissions, function(response){       #revokePermission() function call
+permission.grantPermission(address, permissions, function(response){    //revokePermission() function call
 
-console.log(response)         # prints response of the revoke permision transaction
+console.log(response)         //prints response of the revoke permision transaction
 
 });
 ```
