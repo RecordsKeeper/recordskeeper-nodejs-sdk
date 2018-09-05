@@ -74,18 +74,18 @@ getChainInfo() function is used to retrieve Blockchain parameters.
 ``` {.sourceCode .nodejs}
 getChainInfo(callback)  
 
-var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
+var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
 
-block.getblockinfo(function(response){          #getblockinfo() function call  
+blockchain.getChainInfo(function(response){          //getChainInfo() function call  
 
-console.log(response['chain-protocol'])         #prints blockchain's protocol
-console.log(response['chain-description'])       #prints blockchain's description
-console.log(response['root-stream-name'])       #prints blockchain's root stream
-console.log(response['maximum-blocksize'])      #prints blockchain's maximum block size
-console.log(response['default-network-port'])    #prints blockchain's default network port
-console.log(response['default-rpc-port'])        #prints blockchain's default rpc port
-console.log(response['mining-diversity'])        #prints blockchain's mining diversity
-console.log(response['chain-name'])              #prints blockchain's name
+console.log(response['chain-protocol'])         //prints blockchain's protocol
+console.log(response['chain-description'])      //prints blockchain's description
+console.log(response['root-stream-name'])       //prints blockchain's root stream
+console.log(response['maximum-blocksize'])      //prints blockchain's maximum block size
+console.log(response['default-network-port'])   //prints blockchain's default network port
+console.log(response['default-rpc-port'])       //prints blockchain's default rpc port
+console.log(response['mining-diversity'])       //prints blockchain's mining diversity
+console.log(response['chain-name'])             //prints blockchain's name
 
  });
 ```
@@ -101,14 +101,14 @@ RecordsKeeper Blockchain.
 ``` {.sourceCode .nodejs}
 getNodeInfo(callback) 
 
-var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
+var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
 
-block.getblockinfo(function(response){      #getblockinfo() function call
+blockchain.getNodeInfo(function(response){      //getNodeInfo() function call
 
-console.log(response['node-balance'])     #prints balance of the node
-console.log(response['blocks'])     #prints no of synced blocks
-console.log(response['node-address'])     #prints node's address
-console.log(response['difficulty'])     #prints node's difficulty 
+console.log(response['node-balance'])     //prints balance of the node
+console.log(response['blocks'])     //prints no of synced blocks
+console.log(response['node-address'])     //prints node's address
+console.log(response['difficulty'])     //prints node's difficulty 
 
  });
 ```
@@ -124,11 +124,11 @@ permissions() function is used to retrieve node's permissions.
 ``` {.sourceCode .nodejs}
 permissions(callback)
 
-var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
+var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
 
-block.permissions(function(permissions){                #permissions() function call 
+blockchain.permissions(function(permissions){         //permissions() function call 
 
-console.log(permissions)      # prints permissions available to the node
+console.log(permissions)      //prints permissions available to the node
 
  });
 ```
@@ -145,12 +145,12 @@ pending transactions.
 ``` {.sourceCode .nodejs}
 getpendingTransactions(callback) 
 
-var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
+var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
 
-block.getpendingTransactions(function(response){    #getpendingTransactions() function call
+blockchain.getpendingTransactions(function(response){    //getpendingTransactions() function call
 
-console.log(response['tx'])            #prints pending transactions
-console.log(response['tx_count'])       #prints pending transaction count
+console.log(response['tx'])            //prints pending transactions
+console.log(response['tx_count'])      //prints pending transaction count
 
  });
 ```
@@ -166,11 +166,11 @@ node.
 ``` {.sourceCode .nodejs}
 checkNodeBalance(callback)
 
-var blockchain = new recordskeeper.Blockchain(); #object of class blockchain
+var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
 
-block.getpendingTransactions(function(balance){  #checkNodeBalance() function call
+blockchain.checkNodeBalance(function(balance){  //checkNodeBalance() function call
 
-console.log(balance);          #prints total balance of the node
+console.log(balance);          //prints total balance of the node
 
  });
 ```
