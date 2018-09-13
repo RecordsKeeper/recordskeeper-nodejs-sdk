@@ -49,7 +49,7 @@ blockInfo(block_height, callback)
 
 var block = new recordskeeper.Block(config); //object of class block
 
-block.blockInfo(function(response){          //blockInfo() function call 
+block.blockInfo(block_height, function(response){          //blockInfo() function call 
 
 console.log(response['tx_count'])      //prints transaction count of the block
 console.log(response['tx'])           //prints transaction ids of the block
