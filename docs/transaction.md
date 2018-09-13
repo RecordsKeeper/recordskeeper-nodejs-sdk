@@ -65,7 +65,84 @@ console.log(txid)           //prints transaction id of the sent transaction
 
 It will return the transaction id of the raw transaction.
 
-**2. Send Transaction by signing with private key**
+**2. Create raw transaction**
+
+You have to pass these three arguments to the createRawTransaction
+function call:
+
+-   Transaction's sender address
+-   Transaction's reciever address
+-   Amount to be sent in transaction
+
+createRawTransaction() function is used to create raw transaction by
+passing reciever's address, sender's address and amount.
+
+``` {.sourceCode .nodejs}
+createRawTransaction(sender_address, reciever_address, amount, data, callback)  
+
+var tx = new recordskeeper.Transaction(config); //object of class Transaction
+
+tx.createRawTransaction(sender_address, reciever_address, data, amount, function(txhex){ 
+
+console.log(txhex)      //prints transaction hex of the raw transaction
+
+});
+```
+
+It will return transaction hex of the raw transaction.
+
+**3. Sign raw transaction**
+
+You have to pass these three arguments to the signRawTransaction
+function call:
+
+-   Transaction hex of the raw transaction
+-   Private key to sign raw transaction
+
+signRawTransaction() function is used to sign raw transaction by passing
+transaction hex of the raw transaction and the private key to sign the
+raw transaction.
+
+``` {.sourceCode .nodejs}
+signRawTransaction(txhex, private_key, callback)
+
+var tx = new recordskeeper.Transaction(config); //object of class Transaction
+
+tx.signRawTransaction(txhex, private_key, function(signedtxhex){  
+
+console.log(signedtxhex)      //prints signed transaction hex of the raw transaction
+
+});
+```
+
+It will return signed transaction hex of the raw transaction.
+
+**4. Send raw transaction**
+
+You have to pass these three arguments to the sendRawTransaction
+function call:
+
+-   Signed transaction hex of the raw transaction
+
+sendRawTransaction() function is used to send raw transaction by passing
+signed transaction hex of the raw transaction.
+
+``` {.sourceCode .nodejs}
+sendRawTransaction(signedtxhex, callback)
+
+var tx = new recordskeeper.Transaction(config); //object of class Transaction 
+
+tx.sendRawTransaction(signed_txHex, function(txid){ 
+
+console.log(txid)     //prints transaction id of the raw transaction
+
+});
+```
+
+It will return transaction id of the raw transaction sent on to the
+Blockchain.
+
+**5. Send Transaction by signing with private key**
 
 You have to pass these four arguments to the sendSignedTransaction
 function call:
@@ -93,83 +170,6 @@ console.log(txid);        //prints transaction id of the signed transaction
 
 It will return transaction id of the signed transaction.
 
-**3. Create raw transaction**
-
-You have to pass these three arguments to the createRawTransaction
-function call:
-
--   Transaction's sender address
--   Transaction's reciever address
--   Amount to be sent in transaction
-
-createRawTransaction() function is used to create raw transaction by
-passing reciever's address, sender's address and amount.
-
-``` {.sourceCode .nodejs}
-createRawTransaction(sender_address, reciever_address, amount, data, callback)  
-
-var tx = new recordskeeper.Transaction(config); //object of class Transaction
-
-tx.createRawTransaction(sender_address, reciever_address, amount, data, function(txhex){ 
-
-console.log(txhex)      //prints transaction hex of the raw transaction
-
-});
-```
-
-It will return transaction hex of the raw transaction.
-
-**4. Sign raw transaction**
-
-You have to pass these three arguments to the signRawTransaction
-function call:
-
--   Transaction hex of the raw transaction
--   Private key to sign raw transaction
-
-signRawTransaction() function is used to sign raw transaction by passing
-transaction hex of the raw transaction and the private key to sign the
-raw transaction.
-
-``` {.sourceCode .nodejs}
-signRawTransaction(txhex, private_key, callback)
-
-var tx = new recordskeeper.Transaction(config); //object of class Transaction
-
-tx.signRawTransaction(txhex, private_key, function(signedtxhex){  
-
-console.log(signedtxhex)      //prints signed transaction hex of the raw transaction
-
-});
-```
-
-It will return signed transaction hex of the raw transaction.
-
-**5. Send raw transaction**
-
-You have to pass these three arguments to the sendRawTransaction
-function call:
-
--   Signed transaction hex of the raw transaction
-
-sendRawTransaction() function is used to send raw transaction by passing
-signed transaction hex of the raw transaction.
-
-``` {.sourceCode .nodejs}
-sendRawTransaction(signedtxhex, callback)
-
-var tx = new recordskeeper.Transaction(config); //object of class Transaction 
-
-tx.sendRawTransaction(signed_txHex, function(txid){ 
-
-console.log(txid)     //prints transaction id of the raw transaction
-
-});
-```
-
-It will return transaction id of the raw transaction sent on to the
-Blockchain.
-
 **6. Retrieve a transaction from the Blockchain**
 
 You have to pass given argument to the retrieveTransaction function
@@ -185,10 +185,10 @@ retrieveTransaction(txid, callback)
 
 var tx = new recordskeeper.Transaction(config); //object of class Transaction
 
-tx.sendRawTransaction(signed_txHex, function(response){  
+tx.retrieveTransaction(txid, function(response){  
 
-console.log(response['sent data'])       //prints sent data
-console.log(response['sent amount'])     //prints sent amount
+console.log(response['data'])       //prints sent data
+console.log(response['amount'])     //prints sent amount
 
 });
 ```

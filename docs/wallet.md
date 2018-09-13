@@ -52,9 +52,9 @@ var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.createWallet(function(response){          //createWallet() function call    
 
-console.log(response['public address'])        //prints public address of the wallet
-console.log(response['private key'])           //prints private key of the wallet
-console.log(response['public key'])            //prints public key of the wallet
+console.log(response['public_address'])        //prints public address of the wallet
+console.log(response['private_key'])           //prints private key of the wallet
+console.log(response['public_key'])            //prints public key of the wallet
 
 });
 ```
@@ -75,9 +75,9 @@ getPrivateKey(public_address)
 
 var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
-wallet.getPrivateKey(public_address, function(privkey){ 
+wallet.getPrivateKey(public_address, function(private_key){ 
 
-console.log(privkey)        //prints private key of the given address
+console.log(private_key)        //prints private key of the given address
 
 });
 ```
@@ -94,11 +94,11 @@ retrieveWalletinfo(callback)
 
 var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
-wallet.retrieveWalletinfo(function(response){ 
+wallet.retrieveWalletInfo(function(response){ 
 
 console.log(response['balance'])      //prints wallet's balance
-console.log(response['tx count'])     //prints wallet transaction count
-console.log(response['unspent tx'])   //prints unspent wallet transactions
+console.log(response['tx-count'])     //prints wallet transaction count
+console.log(response['unspent-tx'])   //prints unspent wallet transactions
 
 });
 ```
