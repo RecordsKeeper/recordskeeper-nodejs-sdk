@@ -1,60 +1,17 @@
 'use strict';
-var path = require('path');
+var config = require('./config.json');
 var assert = require('assert');
-var fs = require('fs');
 var Blockchain = require('../src/blockchain.js');
-var b = new Blockchain();
-var config;
-var blockchain_protocol;
-var blockchain_description;
-var blockchain_root_stream;
-var max_blocksize;
-var default_networkport;
-var default_rpcport;
-var blockchain_mining_diversity;
-var blockchain_name;
-var nodeaddress;
-
-function fileExists(path) {
-
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
-    }
-
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-    config = require(path.resolve( __dirname,'../../../config.json'));
-    blockchain_protocol = config['chain-protocol'];
-    blockchain_description = config['chain-description'];
-    blockchain_root_stream = config['chain-root-stream'];
-    max_blocksize = config['max-block-size'];
-    default_networkport = config['default-network-port'];
-    default_rpcport = config['default-rpc-port'];
-    blockchain_mining_diversity = config['mining-diversity'];
-    blockchain_name= config['chain-name'];
-    nodeaddress = config['node-address'];
-} else {
-    //require('dotenv').config();
-    blockchain_protocol = process.env.chain_protocol;
-    blockchain_description = process.env.chain_description;
-    blockchain_root_stream = process.env.chain_root_stream;
-    max_blocksize = process.env.max_block_size;
-    default_networkport = process.env.default_network_port;
-    default_rpcport = process.env.default_rpc_port;
-    blockchain_mining_diversity = process.env.mining_diversity;
-    blockchain_name= process.env.chain_name;
-    nodeaddress = process.env.node_address;
-}
-
+var b = new Blockchain(config);
+var blockchain_protocol = config['chain-protocol'];
+var blockchain_description = config['chain-description'];
+var blockchain_root_stream = config['chain-root-stream'];
+var max_blocksize = config['max-block-size'];
+var default_networkport = config['default-network-port'];
+var default_rpcport = config['default-rpc-port'];
+var blockchain_mining_diversity = config['mining-diversity'];
+var blockchain_name= config['chain-name'];
+var nodeaddress = config['node-address'];
 
 describe('#getChainInfo', function() {
     it('should return correct chain information', function(done) {
@@ -65,7 +22,7 @@ describe('#getChainInfo', function() {
         assert.equal(chain_description, blockchain_description);
         var root_stream_name = response['root-stream-name'];
         assert.equal(root_stream_name, blockchain_root_stream);
-        var maximum_block_size = response['maximum-blocksize'];
+        var maximum_block_size = response['maximum-block-size'];
         assert.equal(maximum_block_size, max_blocksize);
         var default_network_port = response['default-network-port'];
         assert.equal(default_network_port, default_networkport );

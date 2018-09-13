@@ -1,54 +1,18 @@
 'use strict';
-var path = require('path');
+var config = require('./config.json');
 var assert = require('assert');
 var Address = require('../src/address.js');
-var add = new Address();
-var fs = require('fs');
-var config;
-var validaddress;
-var invalidaddress;
-var miningaddress;
-var nonminingaddress;
-var multisigkey;
-var multisigaddress;
-
-function fileExists(path) {
-
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
-    }
-
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-    config = require(path.resolve( __dirname,'../../../config.json'));
-    validaddress = config['validaddress'];
-    invalidaddress = config['invalidaddress'];
-    miningaddress = config['miningaddress'];
-    nonminingaddress = config['nonminingaddress'];
-    multisigkey = config['multisigkey'];
-    multisigaddress = config['multisigaddress'];
-} else {
-    //require('dotenv').config();
-    validaddress = process.env.validaddress;
-    invalidaddress = process.env.invalidaddress;
-    miningaddress = process.env.miningaddress;
-    nonminingaddress = process.env.nonminingaddress;
-    multisigkey = process.env.multisigkey;
-    multisigaddress = process.env.multisigaddress; 
-}
+var addr = new Address(config);
+var validaddress = config['validaddress'];
+var invalidaddress = config['invalidaddress'];
+var miningaddress = config['miningaddress'];
+var nonminingaddress = config['nonminingaddress'];
+var multisigkey = config['multisigkey'];
+var multisigaddress = config['multisigaddress'];
 
 describe('#getAddress', function() {
     it('should generate a new address', function(done) {
-        add.getAddress(function(address){
+        addr.getAddress(function(address){
         let length = address.length;
         assert(length>20);
         done();
@@ -58,7 +22,7 @@ describe('#getAddress', function() {
 
 describe('#getMultisigAddress', function() {
    it('should generate a new multisig address', function(done) {
-        add.getMultisigAddress(2, multisigkey,function(response){
+        addr.getMultisigAddress(2, multisigkey,function(response){
         assert.equal(response, multisigaddress);
         done();
         }); 
@@ -67,7 +31,7 @@ describe('#getMultisigAddress', function() {
 
 describe('#getMultisigWalletAddress', function() {
    it('should return multisig wallet address', function(done) {
-        add.getMultisigWalletAddress(2, multisigkey,function(multiaddress){
+        addr.getMultisigWalletAddress(2, multisigkey,function(multiaddress){
         assert.equal(multiaddress, multisigaddress);
         done();
         }); 
@@ -77,7 +41,7 @@ describe('#getMultisigWalletAddress', function() {
 
 describe('#checkifValid', function() {
     it('Address should be valid', function(done) {
-        add.checkifValid(validaddress, function(addressCheck){
+        addr.checkifValid(validaddress, function(addressCheck){
         assert.equal(addressCheck, "Address is valid");
         done();
         });
@@ -86,7 +50,7 @@ describe('#checkifValid', function() {
 
 describe('#checkifnotValid', function() {
    it('Address should be invalid', function(done) {
-        add.checkifValid(invalidaddress, function(addressCheck){
+        addr.checkifValid(invalidaddress, function(addressCheck){
         assert.equal(addressCheck, "Address is invalid");
         done();
         }); 
@@ -95,7 +59,7 @@ describe('#checkifnotValid', function() {
 
 describe('#checkifMineAllowed', function() {
    it('Address should has mining permission', function(done) {
-        add.checkifMineAllowed(miningaddress, function(permissionCheck){
+        addr.checkifMineAllowed(miningaddress, function(permissionCheck){
         assert.equal(permissionCheck, "Address has mining permission");
         done();
         }); 
@@ -104,7 +68,7 @@ describe('#checkifMineAllowed', function() {
 
 describe('#checkifMinenotAllowed', function() {
    it('Address should not has mining permission', function(done) {
-        add.checkifMineAllowed(nonminingaddress, function(permissionCheck){
+        addr.checkifMineAllowed(nonminingaddress, function(permissionCheck){
         assert.equal(permissionCheck, "Address has not mining permission");
         done();
         }); 
@@ -113,7 +77,7 @@ describe('#checkifMinenotAllowed', function() {
 
 describe('#checkBalance', function() {
    it('should return correct balance', function(done) {
-        add.checkBalance(validaddress, function(balance){
+        addr.checkBalance(validaddress, function(balance){
         assert(balance > 0);
         done();
         }); 
@@ -122,7 +86,7 @@ describe('#checkBalance', function() {
 
 describe('#importAddress', function() {
     it('Address should imported successfully', function(done) {
-        add.importAddress(validaddress, function(addressCheck){
+        addr.importAddress(validaddress, function(addressCheck){
         assert.equal(addressCheck, "Address successfully imported");
         done();
         });
@@ -131,13 +95,12 @@ describe('#importAddress', function() {
 
  describe('#importAddress', function() {
     it('Address should not imported successfully', function(done) {
-        add.importAddress(invalidaddress, function(addressCheck){
+        addr.importAddress(invalidaddress, function(addressCheck){
         assert.equal(addressCheck, "Invalid Rk address or script");
         done();
         });
     });
  });
-
 
 
 

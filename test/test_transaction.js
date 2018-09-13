@@ -1,48 +1,13 @@
 'use strict';
-var path = require('path');
+var config = require('./config.json');
 var assert = require('assert');
 var Transaction = require('../src/transaction.js');
-var tx = new Transaction();
-var fs = require('fs');
-var config;
-var txhex;
-var validaddress;
-var txid;
-var signedtxhex;
-var priv_key;
-
-function fileExists(path) {
-
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
-    }
-
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-    config = require(path.resolve( __dirname,'../../../config.json'));
-    validaddress = config['validaddress'];
-    txhex = config['txhex'];
-    priv_key = config['privatekey'];
-    signedtxhex = config['signedtxhex'];
-    txid = config['txid'];
-} else {
-    //require('dotenv').config();   
-    txhex = process.env.txhex;
-    priv_key = process.env.privatekey;
-    signedtxhex = process.env.signedtxhex;
-    validaddress = process.env.validaddress;
-    txid = process.env.txid; 
-}
-
+var tx = new Transaction(config);
+var validaddress = config['validaddress'];
+var txhex = config['txhex'];
+var priv_key = config['privatekey'];
+var signedtxhex = config['signedtxhex'];
+var txid = config['txid'];
 
 describe('#sendTransaction', function() {
     it('should send a transaction', function(done) {
@@ -97,8 +62,6 @@ describe('#sendTransaction', function() {
   describe('#retrieveTransaction', function() {
     it('should retrieve transaction', function(done) {
         tx.retrieveTransaction(txid, function(response){
-        var hex = response['hex'];
-        assert.equal(hex, txhex);
         var amount = response['amount'];
         assert.equal(amount, 0);
         var data = response['data'];

@@ -1,41 +1,11 @@
 'use strict';
-var path = require('path');
+var config = require('./config.json');
 var assert = require('assert');
-var Stream = require('../src/stream.js');
-var s = new Stream();
-var fs = require('fs');
-var config;
-var stream;
-var validaddress;
-var txid;
-
-function fileExists(path) {
-
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
-    }
-
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-   config = require(path.resolve( __dirname,'../../../config.json'));
-    stream = config['stream'];
-    validaddress = config['validaddress'];
-    txid = config['txid']; 
-} else {
-    //require('dotenv').config();   
-    stream = process.env.stream;
-    validaddress = process.env.validaddress;
-    txid = process.env.txid; 
-}
+var Streams = require('../src/stream.js');
+var s = new Streams(config);
+var stream = config['stream'];
+var validaddress = config['validaddress'];
+var txid = config['txid'];
 
 describe('#publish', function() {
     it('should publish data', function(done) {
@@ -84,7 +54,7 @@ describe('#publish', function() {
     });
   }); 
 
- describe('#VerifyData', function() {
+ describe('#verifyData', function() {
     it('should verify correct data', function(done) {
         s.verifyData(stream, "This is test data", 100, function(response){
         assert.equal(response, 'Data is successfully verified.');
