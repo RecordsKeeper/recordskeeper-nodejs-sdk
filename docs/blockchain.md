@@ -17,7 +17,7 @@ Import recordskeepr library first to get started with the functionality.
 var recordskeeper = require('recordskeeper');  
 ```
 
-Creating Connection
+Importing Config
 ===================
 
 Config file to import config parameters:
@@ -25,34 +25,6 @@ Config file to import config parameters:
 ``` {.sourceCode .nodejs}
 var config = require('./config.json');
 ```
-
-Importing chain url and chain name from config file:
-
--   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
--   Chain-name: chain name
-
-``` {.sourceCode .nodejs}
-var rk_host = config['rk_host'];
-
-var rk_chain = config['rk_chain'];
-```
-
-Node Authentication
-===================
-
-Importing user name and password values from config file to authenticate
-the node:
-
--   User name: The rpc user is used to call the APIs.
--   Password: The rpc password is used to authenticate the APIs.
-
-``` {.sourceCode .nodejs}
-var rk_user = config['rk_user'];
-
-var rk_pass = config['rk_pass'];
-```
-
-Now we have node authentication credentials.
 
 Blockchain Class
 ================
@@ -74,7 +46,7 @@ getChainInfo() function is used to retrieve Blockchain parameters.
 ``` {.sourceCode .nodejs}
 getChainInfo(callback)  
 
-var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
+var blockchain = new recordskeeper.Blockchain(config); //object of class blockchain
 
 blockchain.getChainInfo(function(response){          //getChainInfo() function call  
 
@@ -101,7 +73,7 @@ RecordsKeeper Blockchain.
 ``` {.sourceCode .nodejs}
 getNodeInfo(callback) 
 
-var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
+var blockchain = new recordskeeper.Blockchain(config); //object of class blockchain
 
 blockchain.getNodeInfo(function(response){      //getNodeInfo() function call
 
@@ -124,7 +96,7 @@ permissions() function is used to retrieve node's permissions.
 ``` {.sourceCode .nodejs}
 permissions(callback)
 
-var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
+var blockchain = new recordskeeper.Blockchain(config); //object of class blockchain
 
 blockchain.permissions(function(permissions){         //permissions() function call 
 
@@ -145,7 +117,7 @@ pending transactions.
 ``` {.sourceCode .nodejs}
 getpendingTransactions(callback) 
 
-var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
+var blockchain = new recordskeeper.Blockchain(config); //object of class blockchain
 
 blockchain.getpendingTransactions(function(response){    //getpendingTransactions() function call
 
@@ -166,7 +138,7 @@ node.
 ``` {.sourceCode .nodejs}
 checkNodeBalance(callback)
 
-var blockchain = new recordskeeper.Blockchain(); //object of class blockchain
+var blockchain = new recordskeeper.Blockchain(config); //object of class blockchain
 
 blockchain.checkNodeBalance(function(balance){  //checkNodeBalance() function call
 

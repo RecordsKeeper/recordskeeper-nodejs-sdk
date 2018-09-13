@@ -18,39 +18,13 @@ Import recordskeepr library first to get started with the functionality.
 var recordskeeper = require('recordskeeper');  
 ```
 
-Creating Connection
+Importing Config
 ===================
 
 Config file to import config parameters:
 
 ``` {.sourceCode .nodejs}
 var config = require('./config.json');
-```
-
-Importing chain url and chain name from config file:
-
--   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
--   Chain-name: chain name
-
-``` {.sourceCode .nodejs}
-var rk_host = config['rk_host'];
-
-var rk_chain = config['rk_chain'];
-```
-
-Node Authentication
-===================
-
-Importing user name and password values from config file to authenticate
-the node:
-
--   User name: The rpc user is used to call the APIs.
--   Password: The rpc password is used to authenticate the APIs.
-
-``` {.sourceCode .nodejs}
-var rk_user = config['rk_user'];
-
-var rk_pass = config['rk_pass'];
 ```
 
 Wallet Class
@@ -74,7 +48,7 @@ blockchain
 ``` {.sourceCode .nodejs}
 createWallet(callback)  
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.createWallet(function(response){          #createWallet() function call    
 
@@ -99,7 +73,7 @@ address.
 ``` {.sourceCode .nodejs}
 getPrivateKey(public_address)
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.getPrivateKey(public_address, function(privkey){ 
 
@@ -118,7 +92,7 @@ information.
 ``` {.sourceCode .nodejs}
 retrieveWalletinfo(callback)
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.retrieveWalletinfo(function(response){ 
 
@@ -144,7 +118,7 @@ backupWallet() function is used to create backup of the wallet.dat file.
 ``` {.sourceCode .nodejs}
 backupWallet(filename, callback) 
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.backupWallet(filename, function(response){ 
 
@@ -173,7 +147,7 @@ importWallet() function is used to import wallet's backup file.
 ``` {.sourceCode .nodejs}
 importWallet(filename, callback) 
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.importWallet(filename, function(response){ 
 
@@ -198,7 +172,7 @@ passing transaction id to the function.
 ``` {.sourceCode .nodejs}
 dumpWallet(filename, callback)
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.dumpWallet(filename, function(response){
 
@@ -225,7 +199,7 @@ passing transaction id and sender's address to the function.
 ``` {.sourceCode .nodejs}
 lockWallet(password, callback)
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet 
+var wallet = new recordskeeper.Wallet(config); #object of class wallet 
 
 wallet.lockWallet(password, function(response){
 
@@ -256,7 +230,7 @@ passing transaction id and sender's address to the function.
 ``` {.sourceCode .nodejs}
 unlockWallet(password, unlock_time, callback)
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.unlockWallet(password, unlock_time, function(response){
 
@@ -284,7 +258,7 @@ set new password.
 ``` {.sourceCode .nodejs}
 changeWalletPassword(old_password, new_password, callback)
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.changeWalletPassword(password, new_password, function(response){
 
@@ -308,7 +282,7 @@ password.
 ``` {.sourceCode .nodejs}
 signMessage(private_key, message, callback)
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.signMessage(priavte_key, message, function(signedMessage){
 
@@ -333,7 +307,7 @@ password.
 ``` {.sourceCode .nodejs}
 verifyMessage(address, signedMessage, message, callback)
 
-var wallet = new recordskeeper.Wallet(); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); #object of class wallet
 
 wallet.verifyMessage(address, signedMessage, message, function(validity){ 
 

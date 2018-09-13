@@ -13,39 +13,13 @@ Import recordskeepr library first to get started with the functionality.
 var recordskeeper = require('recordskeeper'); 
 ```
 
-Creating Connection
+Importing Config
 ===================
 
 Config file to import config parameters:
 
 ``` {.sourceCode .nodejs}
 var config = require('./config.json');
-```
-
-Importing chain url and chain name from config file:
-
--   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
--   Chain-name: chain name
-
-``` {.sourceCode .nodejs}
-var rk_host = config['rk_host'];
-
-var rk_chain = config['rk_chain'];
-```
-
-Node Authentication
-===================
-
-Importing user name and password values from config file to authenticate
-the node:
-
--   User name: The rpc user is used to call the APIs.
--   Password: The rpc password is used to authenticate the APIs.
-
-``` {.sourceCode .nodejs}
-var rk_user = config['rk_user'];
-
-var rk_pass = config['rk_pass'];
 ```
 
 Permissions Class
@@ -74,7 +48,7 @@ RecordsKeeper Blockchain.
 ``` {.sourceCode .nodejs}
 grantPermissions(address, permissions, callback)
 
-var permission = new recordskeeper.Permissions(); //object of class Permissions  
+var permission = new recordskeeper.Permissions(config); //object of class Permissions  
 
 permission.grantPermissions(address, permissions, function(txid){ //grantPermissions() function call   
 
@@ -100,7 +74,7 @@ RecordsKeeper Blockchain.
 ``` {.sourceCode .nodejs}
 revokePermission(address, permissions, callback) 
 
-var permission = new recordskeeper.Permissions(); //object of class Permissions
+var permission = new recordskeeper.Permissions(config); //object of class Permissions
 
 permission.grantPermission(address, permissions, function(response){    //revokePermission() function call
 

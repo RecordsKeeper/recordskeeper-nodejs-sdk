@@ -15,39 +15,13 @@ Import recordskeepr library first to get started with the functionality.
 var recordskeeper = require('recordskeeper'); 
 ```
 
-Creating Connection
+Importing Config
 ===================
 
 Config file to import config parameters:
 
 ``` {.sourceCode .nodejs}
 var config = require('./config.json');
-```
-
-Importing chain url and chain name from config file:
-
--   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
--   Chain-name: chain name
-
-``` {.sourceCode .nodejs}
-var rk_host = config['rk_host'];
-
-var rk_chain = config['rk_chain'];
-```
-
-Node Authentication
-===================
-
-Importing user name and password values from config file to authenticate
-the node:
-
--   User name: The rpc user is used to call the APIs.
--   Password: The rpc password is used to authenticate the APIs.
-
-``` {.sourceCode .nodejs}
-var rk_user = config['rk_user'];
-
-var rk_pass = config['rk_pass'];
 ```
 
 Stream Class
@@ -76,7 +50,7 @@ The **data.hex()** will convert the data into a hex value
 ``` {.sourceCode .nodejs}
 publish(address, stream, key, data, callback)
 
-var stream = new recordskeeper.Streams(); //object of class Stream   
+var stream = new recordskeeper.Streams(config); //object of class Stream   
 
 stream.publish(address, stream, key, data, function(txid){       //publish() function call    
 
@@ -99,7 +73,7 @@ You have to pass these two arguments to the retrieve function call:
 ``` {.sourceCode .nodejs}
 retrieveData(stream, txid)         
 
-var stream = new recordskeeper.Streams(); //object of class Stream
+var stream = new recordskeeper.Streams(config); //object of class Stream
 
 stream.retrieve(stream, txid, function(data){   //call retrieve function with stream and txid as the required parameters 
 
@@ -122,7 +96,7 @@ function call:
 ``` {.sourceCode .nodejs}
 retrieveWithAddress(stream, address, count, callback)
 
-var stream = new recordskeeper.Streams(); //object of class Stream
+var stream = new recordskeeper.Streams(config); //object of class Stream
 
 stream.retrieveWithAddress(stream, address, count, function(response){   //call retrieve function with stream, address and count as the required parameters
 
@@ -148,7 +122,7 @@ call:
 ``` {.sourceCode .nodejs}
 retrieveWithKey(stream, key, count, callback)
 
-var stream = new recordskeeper.Streams(); //object of class Stream
+var stream = new recordskeeper.Streams(config); //object of class Stream
 
 stream.retrieveWithKey(stream, key, count, function(response){   //call retrieve function with stream, key and count as the required parameters
 
@@ -175,7 +149,7 @@ call:
 ``` {.sourceCode .nodejs}
 verifyData(stream, data, count, callback)
 
-var stream = new recordskeeper.Streams(); //object of class Stream
+var stream = new recordskeeper.Streams(config); //object of class Stream
 
 stream.verifyData(stream, data, count, function(response){   //call verifyData function with data as the required parameters
 
@@ -197,7 +171,7 @@ You have to pass these two arguments to the verifyWithKey function call:
 ``` {.sourceCode .nodejs}
 retrieveItems(stream, count, callback)
 
-var stream = new recordskeeper.Streams(); //object of class Stream
+var stream = new recordskeeper.Streams(config); //object of class Stream
 
 stream.retrieveItems(stream, count, function(response){   //call retrieveItems function with stream and count as the required parameters
 

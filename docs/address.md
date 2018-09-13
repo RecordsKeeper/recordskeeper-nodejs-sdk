@@ -17,39 +17,13 @@ Import recordskeepr library first to get started with the functionality.
 var recordskeeper = require('recordskeeper');  
 ```
 
-Creating Connection
+Importing Config
 ===================
 
 Config file to import config parameters:
 
 ``` {.sourceCode .nodejs}
 var config = require('./config.json');
-```
-
-Importing chain url and chain name from config file:
-
--   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
--   Chain-name: chain name
-
-``` {.sourceCode .nodejs}
-var rk_host = config['rk_host'];
-
-var rk_chain = config['rk_chain'];
-```
-
-Node Authentication
-===================
-
-Importing user name and password values from config file to authenticate
-the node:
-
--   User name: The rpc user is used to call the APIs.
--   Password: The rpc password is used to authenticate the APIs.
-
-``` {.sourceCode .nodejs}
-var rk_user = config['rk_user'];
-
-var rk_pass = config['rk_pass'];
 ```
 
 Address Class
@@ -72,7 +46,7 @@ getAddress() function is used to generate a new wallet address.
 ``` {.sourceCode .nodejs}
 getAddress(callback) //getAddress function definition 
 
-var addr = new recordskeeper.Address(); //object of class address
+var addr = new recordskeeper.Address(config); //object of class address
 
 addr.getAddress(function(address){          //getAddress() function call   
 
@@ -99,7 +73,7 @@ address.
 ``` {.sourceCode .nodejs}
 getMultisigAddress(required, key, callback)  //getMultisigAddress function definition
 
-var addr = new recordskeeper.Address(); //object of class address 
+var addr = new recordskeeper.Address(config); //object of class address 
 
 addr.getMultisigAddress(required, key, function(address){           //getMultisigAddress() function call   
 
@@ -126,7 +100,7 @@ address.
 ``` {.sourceCode .nodejs}
 getMultisigWalletAddress(required, key, callback)  //getMultisigWalletAddress function definition
 
-var addr = new recordskeeper.Address(); //object of class address 
+var addr = new recordskeeper.Address(config); //object of class address 
 
 addr.getMultisigWalletAddress(required, key, function(address){         //getMultisigAddress() function call   
 
@@ -145,7 +119,7 @@ addresses on the node's wallet.
 ``` {.sourceCode .nodejs}
 retrieveAddresses(callback)  //retrieveAddresses function definition
 
-var addr = new recordskeeper.Address(); //object of class address 
+var addr = new recordskeeper.Address(config); //object of class address 
 
 addr.retrieveAddresses(function(response){         //retrieveAddress() function call   
 
@@ -171,7 +145,7 @@ address.
 ``` {.sourceCode .nodejs}
 checkifValid(address, callback)  //checkifValid function definition
 
-var addr = new recordskeeper.Address(); //object of class address 
+var addr = new recordskeeper.Address(config); //object of class address 
 
 addr.checkifValid(address, function(response){         //checkifValid() function call   
 
@@ -196,7 +170,7 @@ raw transaction.
 ``` {.sourceCode .nodejs}
 checkifMineAllowed(address, callback)  //checkifMineAllowed function definition
 
-var addr = new recordskeeper.Address(); //object of class address 
+var addr = new recordskeeper.Address(config); //object of class address 
 
 addr.checkifMineAllowed(address, function(response){         //checkifMineAllowed() function call   
 
@@ -219,7 +193,7 @@ checkBalance() function is used to check the balance of the address.
 ``` {.sourceCode .nodejs}
 checkBalance(address, callback)  //checkBalance function definition
 
- var addr = new recordskeeper.Address(); //object of class address 
+ var addr = new recordskeeper.Address(config); //object of class address 
 
  addr.checkBalance(address, function(balance){         //checkBalance() function call   
 
@@ -241,7 +215,7 @@ importAddress() function is used to check the balance of the address.
 ``` {.sourceCode .nodejs}
 importAddress(address, callback)  //importAddress function definition
 
- var addr = new recordskeeper.Address(); //object of class address 
+ var addr = new recordskeeper.Address(config); //object of class address 
 
  addr.importAddress(address, function(response){         //importAddress() function call   
 

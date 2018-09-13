@@ -9,46 +9,19 @@ just have to pass parameters to invoke the pre-defined functions.
 Libraries
 =========
 
-Import these python libraries first to get started with the
-functionality.
+Import recordskeepr library first to get started with the functionality.
 
 ``` {.sourceCode .nodejs}
 var recordskeeper = require('recordskeeper');  
 ```
 
-Creating Connection
+Importing Config
 ===================
 
 Config file to import config parameters:
 
 ``` {.sourceCode .nodejs}
 var config = require('./config.json');
-```
-
-Importing chain url and chain name from config file:
-
--   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
--   Chain-name: chain name
-
-``` {.sourceCode .nodejs}
-var rk_host = config['rk_host'];
-
-var rk_chain = config['rk_chain'];
-```
-
-Node Authentication
-===================
-
-Importing user name and password values from config file to authenticate
-the node:
-
--   User name: The rpc user is used to call the APIs.
--   Password: The rpc password is used to authenticate the APIs.
-
-``` {.sourceCode .nodejs}
-var rk_user = config['rk_user'];
-
-var rk_pass = config['rk_pass'];
 ```
 
 Assets Class
@@ -69,7 +42,7 @@ createAsset() function is used to create or issue an asset.
 ``` {.sourceCode .nodejs}
 createAsset(address, asset_name, asset_qty, callback) 
 
-var asset = new recordskeeper.Assets(); //object of class address 
+var asset = new recordskeeper.Assets(config); //object of class address 
 
 asset.createAsset(address, asset_name, asset_qty, function(txid){          //createAsset() function call   
 
@@ -94,7 +67,7 @@ sendAsset() function is used to send an asset.
 ``` {.sourceCode .nodejs}
 sendAsset(address, assetname, qty, callback)  
 
-var asset = new recordskeeper.Assets(); //object of class address 
+var asset = new recordskeeper.Assets(config); //object of class address 
 
 asset.sendAsset(address, asset_name, asset_qty, function(txid){          //sendAsset() function call   
 
@@ -114,7 +87,7 @@ RecordsKeeper Blockchain.
 ``` {.sourceCode .nodejs}
 retrieveAssets(callback) 
 
-var asset = new recordskeeper.Assets(); //object of class address 
+var asset = new recordskeeper.Assets(config); //object of class address 
 
 asset.retrieveAsset(function(response){      //retrieveAssets() function call
 

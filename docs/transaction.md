@@ -17,39 +17,13 @@ Import recordskeepr library first to get started with the functionality.
 var recordskeeper = require('recordskeeper');  
 ```
 
-Creating Connection
+Importing Config
 ===================
 
 Config file to import config parameters:
 
 ``` {.sourceCode .nodejs}
 var config = require('./config.json');
-```
-
-Importing chain url and chain name from config file:
-
--   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
--   Chain-name: chain name
-
-``` {.sourceCode .nodejs}
-var rk_host = config['rk_host'];
-
-var rk_chain = config['rk_chain'];
-```
-
-Node Authentication
-===================
-
-Importing user name and password values from config file to authenticate
-the node:
-
--   User name: The rpc user is used to call the APIs.
--   Password: The rpc password is used to authenticate the APIs.
-
-``` {.sourceCode .nodejs}
-var rk_user = config['rk_user'];
-
-var rk_pass = config['rk_pass'];
 ```
 
 Transaction Class
@@ -80,7 +54,7 @@ reciever's address, sender's address and amount.
 ``` {.sourceCode .nodejs}
 sendTransaction(sender_address, reciever_address, data, amount, callback)
 
-var tx = new recordskeeper.Transaction(); #object of class Transaction  
+var tx = new recordskeeper.Transaction(config); #object of class Transaction  
 
 tx.sendTransaction(sender_address, reciever_address, data, amount, function(txid){          #sendTransaction() function call    
 
@@ -108,7 +82,7 @@ In this function private key is required to sign transaction.
 ``` {.sourceCode .nodejs}
 sendSignedTransaction(sender_address, reciever_address, amount, private_key, data, callback) 
 
-var tx = new recordskeeper.Transaction(); #object of class Transaction 
+var tx = new recordskeeper.Transaction(config); #object of class Transaction 
 
 tx.sendSignedTransaction(sender_address, reciever_address, amount, private_key, data, function(txid){ 
 
@@ -134,7 +108,7 @@ passing reciever's address, sender's address and amount.
 ``` {.sourceCode .nodejs}
 createRawTransaction(sender_address, reciever_address, amount, data, callback)  
 
-var tx = new recordskeeper.Transaction(); #object of class Transaction
+var tx = new recordskeeper.Transaction(config); #object of class Transaction
 
 tx.createRawTransaction(sender_address, reciever_address, amount, data, function(txhex){ 
 
@@ -160,7 +134,7 @@ raw transaction.
 ``` {.sourceCode .nodejs}
 signRawTransaction(txhex, private_key, callback)
 
-var tx = new recordskeeper.Transaction(); #object of class Transaction
+var tx = new recordskeeper.Transaction(config); #object of class Transaction
 
 tx.signRawTransaction(txhex, private_key, function(signedtxhex){  
 
@@ -184,7 +158,7 @@ signed transaction hex of the raw transaction.
 ``` {.sourceCode .nodejs}
 sendRawTransaction(signedtxhex, callback)
 
-var tx = new recordskeeper.Transaction(); #object of class Transaction 
+var tx = new recordskeeper.Transaction(config); #object of class Transaction 
 
 tx.sendRawTransaction(signed_txHex, function(txid){ 
 
@@ -209,7 +183,7 @@ information by passing transaction id to the function.
 ``` {.sourceCode .nodejs}
 retrieveTransaction(txid, callback)
 
-var tx = new recordskeeper.Transaction(); #object of class Transaction
+var tx = new recordskeeper.Transaction(config); #object of class Transaction
 
 tx.sendRawTransaction(signed_txHex, function(response){  
 
@@ -236,7 +210,7 @@ transaction id and sender's address to the function.
 ``` {.sourceCode .nodejs}
 getFee(address, txid, callback)
 
-var tx = new recordskeeper.Transaction(); #object of class Transaction
+var tx = new recordskeeper.Transaction(config); #object of class Transaction
 
 tx.getFee(address, tx_id, function(fee){
 

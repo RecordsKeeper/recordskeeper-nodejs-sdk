@@ -15,39 +15,13 @@ Import recordskeepr library first to get started with the functionality.
 var recordskeeper = require('recordskeeper');  
 ```
 
-Creating Connection
+Importing Config
 ===================
 
 Config file to import config parameters:
 
 ``` {.sourceCode .nodejs}
 var config = require('./config.json');
-```
-
-Importing chain url and chain name from config file:
-
--   URL: Url to connect to the chain (\[RPC Host\]:\[RPC Port\])
--   Chain-name: chain name
-
-``` {.sourceCode .nodejs}
-var rk_host = config['rk_host'];
-
-var rk_chain = config['rk_chain'];
-```
-
-Node Authentication
-===================
-
-Importing user name and password values from config file to authenticate
-the node:
-
--   User name: The rpc user is used to call the APIs.
--   Password: The rpc password is used to authenticate the APIs.
-
-``` {.sourceCode .nodejs}
-var rk_user = config['rk_user'];
-
-var rk_pass = config['rk_pass'];
 ```
 
 Block Class
@@ -71,11 +45,11 @@ function call:
 -   Block height: height of the block of which you want to collect info
 
 ``` {.sourceCode .nodejs}
-blockinfo(block_height, callback)
+blockInfo(block_height, callback)
 
-var block = new recordskeeper.Block(); //object of class block
+var block = new recordskeeper.Block(config); //object of class block
 
-block.blockinfo(function(response){          //blockinfo() function call 
+block.blockInfo(function(response){          //blockInfo() function call 
 
 console.log(response['tx_count'])      //prints transaction count of the block
 console.log(response['tx'])           //prints transaction ids of the block
@@ -107,7 +81,7 @@ retrieveBlocks function call:
 
 retrieveBlocks(block_range)
 
-var block = new recordskeeper.Block(); //object of class block
+var block = new recordskeeper.Block(config); //object of class block
 
 block.retrieveBlocks(block_range, function(response){ //retrieveBlocks() function call
 
