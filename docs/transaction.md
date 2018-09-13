@@ -54,11 +54,11 @@ reciever's address, sender's address and amount.
 ``` {.sourceCode .nodejs}
 sendTransaction(sender_address, reciever_address, data, amount, callback)
 
-var tx = new recordskeeper.Transaction(config); #object of class Transaction  
+var tx = new recordskeeper.Transaction(config); //object of class Transaction  
 
-tx.sendTransaction(sender_address, reciever_address, data, amount, function(txid){          #sendTransaction() function call    
+tx.sendTransaction(sender_address, reciever_address, data, amount, function(txid){          //sendTransaction() function call    
 
-console.log(txid)           #prints transaction id of the sent transaction
+console.log(txid)           //prints transaction id of the sent transaction
 
 });
 ```
@@ -82,11 +82,11 @@ In this function private key is required to sign transaction.
 ``` {.sourceCode .nodejs}
 sendSignedTransaction(sender_address, reciever_address, amount, private_key, data, callback) 
 
-var tx = new recordskeeper.Transaction(config); #object of class Transaction 
+var tx = new recordskeeper.Transaction(config); //object of class Transaction 
 
 tx.sendSignedTransaction(sender_address, reciever_address, amount, private_key, data, function(txid){ 
 
-console.log(txid);        #prints transaction id of the signed transaction
+console.log(txid);        //prints transaction id of the signed transaction
 
 });
 ```
@@ -108,11 +108,11 @@ passing reciever's address, sender's address and amount.
 ``` {.sourceCode .nodejs}
 createRawTransaction(sender_address, reciever_address, amount, data, callback)  
 
-var tx = new recordskeeper.Transaction(config); #object of class Transaction
+var tx = new recordskeeper.Transaction(config); //object of class Transaction
 
 tx.createRawTransaction(sender_address, reciever_address, amount, data, function(txhex){ 
 
-console.log(txhex)      #prints transaction hex of the raw transaction
+console.log(txhex)      //prints transaction hex of the raw transaction
 
 });
 ```
@@ -134,11 +134,11 @@ raw transaction.
 ``` {.sourceCode .nodejs}
 signRawTransaction(txhex, private_key, callback)
 
-var tx = new recordskeeper.Transaction(config); #object of class Transaction
+var tx = new recordskeeper.Transaction(config); //object of class Transaction
 
 tx.signRawTransaction(txhex, private_key, function(signedtxhex){  
 
-console.log(signedtxhex)      #prints signed transaction hex of the raw transaction
+console.log(signedtxhex)      //prints signed transaction hex of the raw transaction
 
 });
 ```
@@ -158,11 +158,11 @@ signed transaction hex of the raw transaction.
 ``` {.sourceCode .nodejs}
 sendRawTransaction(signedtxhex, callback)
 
-var tx = new recordskeeper.Transaction(config); #object of class Transaction 
+var tx = new recordskeeper.Transaction(config); //object of class Transaction 
 
 tx.sendRawTransaction(signed_txHex, function(txid){ 
 
-console.log(txid)     #prints transaction id of the raw transaction
+console.log(txid)     //prints transaction id of the raw transaction
 
 });
 ```
@@ -183,12 +183,12 @@ information by passing transaction id to the function.
 ``` {.sourceCode .nodejs}
 retrieveTransaction(txid, callback)
 
-var tx = new recordskeeper.Transaction(config); #object of class Transaction
+var tx = new recordskeeper.Transaction(config); //object of class Transaction
 
 tx.sendRawTransaction(signed_txHex, function(response){  
 
-console.log(response['sent data'])       #prints sent data
-console.log(response['sent amount'])     #prints sent amount
+console.log(response['sent data'])       //prints sent data
+console.log(response['sent amount'])     //prints sent amount
 
 });
 ```
@@ -210,11 +210,11 @@ transaction id and sender's address to the function.
 ``` {.sourceCode .nodejs}
 getFee(address, txid, callback)
 
-var tx = new recordskeeper.Transaction(config); #object of class Transaction
+var tx = new recordskeeper.Transaction(config); //object of class Transaction
 
 tx.getFee(address, tx_id, function(fee){
 
-console.log(fee)             #prints fees consumed in the verified transaction
+console.log(fee)             //prints fees consumed in the verified transaction
 
 });
 ```

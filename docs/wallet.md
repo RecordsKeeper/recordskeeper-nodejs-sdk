@@ -48,13 +48,13 @@ blockchain
 ``` {.sourceCode .nodejs}
 createWallet(callback)  
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
-wallet.createWallet(function(response){          #createWallet() function call    
+wallet.createWallet(function(response){          //createWallet() function call    
 
-console.log(response['public address'])        #prints public address of the wallet
-console.log(response['private key'])           #prints private key of the wallet
-console.log(response['public key'])            #prints public key of the wallet
+console.log(response['public address'])        //prints public address of the wallet
+console.log(response['private key'])           //prints private key of the wallet
+console.log(response['public key'])            //prints public key of the wallet
 
 });
 ```
@@ -73,11 +73,11 @@ address.
 ``` {.sourceCode .nodejs}
 getPrivateKey(public_address)
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.getPrivateKey(public_address, function(privkey){ 
 
-console.log(privkey)        #prints private key of the given address
+console.log(privkey)        //prints private key of the given address
 
 });
 ```
@@ -92,13 +92,13 @@ information.
 ``` {.sourceCode .nodejs}
 retrieveWalletinfo(callback)
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.retrieveWalletinfo(function(response){ 
 
-console.log(response['balance'])      #prints wallet's balance
-console.log(response['tx count'])     #prints wallet transaction count
-console.log(response['unspent tx'])   #prints unspent wallet transactions
+console.log(response['balance'])      //prints wallet's balance
+console.log(response['tx count'])     //prints wallet transaction count
+console.log(response['unspent tx'])   //prints unspent wallet transactions
 
 });
 ```
@@ -118,11 +118,11 @@ backupWallet() function is used to create backup of the wallet.dat file.
 ``` {.sourceCode .nodejs}
 backupWallet(filename, callback) 
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.backupWallet(filename, function(response){ 
 
-console.log(response);      #prints result
+console.log(response);      //prints result
 
 });
 ```
@@ -147,11 +147,11 @@ importWallet() function is used to import wallet's backup file.
 ``` {.sourceCode .nodejs}
 importWallet(filename, callback) 
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.importWallet(filename, function(response){ 
 
-console.log(response);    #prints result
+console.log(response);    //prints result
 
 });
 ```
@@ -172,11 +172,11 @@ passing transaction id to the function.
 ``` {.sourceCode .nodejs}
 dumpWallet(filename, callback)
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.dumpWallet(filename, function(response){
 
-console.log(response);   #prints result
+console.log(response);   //prints result
 ```
 
 > });
@@ -199,11 +199,11 @@ passing transaction id and sender's address to the function.
 ``` {.sourceCode .nodejs}
 lockWallet(password, callback)
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet 
+var wallet = new recordskeeper.Wallet(config); //object of class wallet 
 
 wallet.lockWallet(password, function(response){
 
-console.log(response)     #prints result
+console.log(response)     //prints result
 
 });
 ```
@@ -230,11 +230,11 @@ passing transaction id and sender's address to the function.
 ``` {.sourceCode .nodejs}
 unlockWallet(password, unlock_time, callback)
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.unlockWallet(password, unlock_time, function(response){
 
-console.log(response)     #prints result
+console.log(response)     //prints result
 
 });
 ```
@@ -258,11 +258,11 @@ set new password.
 ``` {.sourceCode .nodejs}
 changeWalletPassword(old_password, new_password, callback)
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.changeWalletPassword(password, new_password, function(response){
 
-console.log(response);     #prints result
+console.log(response);     //prints result
 
 });
 ```
@@ -282,11 +282,11 @@ password.
 ``` {.sourceCode .nodejs}
 signMessage(private_key, message, callback)
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.signMessage(priavte_key, message, function(signedMessage){
 
-console.log(signedMessage)   #prints signed message
+console.log(signedMessage)   //prints signed message
 
 });
 ```
@@ -307,11 +307,11 @@ password.
 ``` {.sourceCode .nodejs}
 verifyMessage(address, signedMessage, message, callback)
 
-var wallet = new recordskeeper.Wallet(config); #object of class wallet
+var wallet = new recordskeeper.Wallet(config); //object of class wallet
 
 wallet.verifyMessage(address, signedMessage, message, function(validity){ 
 
-console.log(validity)     #prints validity of the message
+console.log(validity)     //prints validity of the message
 
 });
 ```
