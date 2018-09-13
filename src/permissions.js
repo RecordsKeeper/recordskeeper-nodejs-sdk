@@ -10,8 +10,8 @@ class Permissions {
     }
  
  grantPermissions(address, permissions, callback) {
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var txid;
  
  req.headers({
@@ -25,7 +25,7 @@ class Permissions {
     "method": "grant",
     "params": [address, permissions],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -40,8 +40,8 @@ class Permissions {
 }
 
  revokePermission(address, permissions, callback) {
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var txid;
  
  req.headers({
@@ -55,7 +55,7 @@ class Permissions {
     "method": "revoke",
     "params": [address, permissions],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 

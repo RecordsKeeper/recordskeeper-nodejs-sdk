@@ -46,7 +46,6 @@ getAddress(callback){
  var req = unirest("POST", this.rk_host);
  var address;
  var keys = key.split(",");
- console.log(keys);
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,

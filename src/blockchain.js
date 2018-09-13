@@ -53,7 +53,7 @@ class Blockchain {
       params_array['chain-protocol']=chain_protocol;
       params_array['chain-description']=chain_description;
       params_array['root-stream-name']=root_stream;
-      params_array['maximum-blocksize']=max_blocksize;
+      params_array['maximum-block-size']=max_blocksize;
       params_array['default-network-port']=default_networkport;
       params_array['default-rpc-port']=default_networkport;
       params_array['mining-diversity'] = mining_diversity;
@@ -149,6 +149,7 @@ class Blockchain {
  var tx_count;
  var tx = [];
  var params_array = {};
+ var chain_name = this.rk_chain;
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -160,7 +161,7 @@ class Blockchain {
     "method": "getmempoolinfo",
     "params": [],
     "id": 1,
-    "chain_name": this.rk_chain
+    "chain_name": chain_name
     });
     req.end(function (response) {
     if (response.error){
@@ -171,7 +172,6 @@ class Blockchain {
       	var result = response.body;
       	var count = result['result'];
       	tx_count = count['size'];
-        console.log(tx_count);
        if(tx_count!=0){
        req.headers({
       "cache-control": "no-cache",
@@ -184,7 +184,7 @@ class Blockchain {
     "method": "getrawmempool",
     "params": [],
     "id": 1,
-    "chain_name": this.rk_chain
+    "chain_name": chain_name
     });
     req.end(function (response) {
     if (response.error){
