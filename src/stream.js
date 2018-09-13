@@ -1,47 +1,17 @@
-var path = require('path');
 var unirest = require("unirest");
-var fs = require('fs');
-var config;
-var rk_host;
-var rk_user;
-var rk_pass;
-var rk_chain;
 
-function fileExists(path) {
+class Streams {
 
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
+ constructor(config) {
+    this.rk_host = config['rk_host'];
+    this.rk_user = config['rk_user'];
+    this.rk_pass = config['rk_pass'];
+    this.rk_chain = config['rk_chain'];
     }
 
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-   config = require(path.resolve( __dirname,'../../../config.json'));
-    rk_host = config['rk_host'];
-    rk_user = config['rk_user'];
-    rk_pass = config['rk_pass'];
-    rk_chain = config['rk_chain']; 
-} else {
-    //require('dotenv').config();   
-    rk_host = process.env.rk_host;
-    rk_user = process.env.rk_user;
-    rk_pass = process.env.rk_pass;
-    rk_chain = process.env.rk_chain;
-}
-
-module.exports = class Stream {
-
  publish(address, stream, key, data, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var txid;
  var hexdata = Buffer.from(data, 'utf8').toString('hex');
  req.headers({
@@ -55,7 +25,7 @@ module.exports = class Stream {
     "method": "publishfrom",
     "params": [address, stream, key, hexdata],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     
@@ -67,15 +37,12 @@ module.exports = class Stream {
        txid = result['result']; 
      }
      callback(txid);
-    
     });
-     
-      
-  }
+}
 
  retrieve(stream, txid, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var data;
  var status;
  req.headers({
@@ -89,7 +56,7 @@ module.exports = class Stream {
     "method": "getstreamitem",
     "params": [stream, txid],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -105,8 +72,8 @@ module.exports = class Stream {
   }
 
  retrieveWithAddress(stream, address, count, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var data;
  var key;
  var txid;
@@ -127,7 +94,7 @@ module.exports = class Stream {
     "method": "liststreampublisheritems",
     "params": [stream, address, false, count],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     result = response.body;
@@ -155,8 +122,8 @@ module.exports = class Stream {
   }
 
  retrieveWithKey(stream, key, count, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var data;
  var publisher;
  var txid;
@@ -177,7 +144,7 @@ module.exports = class Stream {
     "method": "liststreamkeyitems",
     "params": [stream, key, false, count],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      result = response.body;
@@ -204,8 +171,8 @@ module.exports = class Stream {
   }
 
  verifyData(stream, data, count, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var stream_data;
  var result_data = [];
  var res;
@@ -222,7 +189,7 @@ module.exports = class Stream {
     "method": "liststreamitems",
     "params": [stream, false, count],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      result = response.body;
@@ -250,8 +217,8 @@ module.exports = class Stream {
   }
 
  retrieveItems(stream, count, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var address = [];
  var result_data = [];
  var key_values = [];
@@ -270,7 +237,7 @@ module.exports = class Stream {
     "method": "liststreamitems",
     "params": [stream, false, count],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     result = response.body;
@@ -301,7 +268,6 @@ module.exports = class Stream {
       callback(params_array);
     });
   }
-
-
-
 }
+
+module.exports = Streams;

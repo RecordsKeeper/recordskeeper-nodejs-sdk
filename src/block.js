@@ -1,47 +1,17 @@
-var path = require('path');
 var unirest = require("unirest");
-var fs = require('fs');
-var config;
-var rk_host;
-var rk_user;
-var rk_pass;
-var rk_chain;
 
-function fileExists(path) {
+class Block {
 
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
+ constructor(config) {
+    this.rk_host = config['rk_host'];
+    this.rk_user = config['rk_user'];
+    this.rk_pass = config['rk_pass'];
+    this.rk_chain = config['rk_chain'];
     }
-
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-   config = require(path.resolve( __dirname,'../../../config.json'));
-    rk_host = config['rk_host'];
-    rk_user = config['rk_user'];
-    rk_pass = config['rk_pass'];
-    rk_chain = config['rk_chain']; 
-} else {
-    //require('dotenv').config();   
-    rk_host = process.env.rk_host;
-    rk_user = process.env.rk_user;
-    rk_pass = process.env.rk_pass;
-    rk_chain = process.env.rk_chain;
-}
-
-module.exports = class Block {
  
- blockinfo(block_height, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ blockInfo(block_height, callback){
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var blockheight = String(block_height);
  var tx =[];
  var miner;
@@ -66,7 +36,7 @@ module.exports = class Block {
     "method": "getblock",
     "params": [blockheight],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -105,8 +75,8 @@ module.exports = class Block {
   }
 
 retrieveBlocks(block_range, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var blockhash = [];
  var miner = [];
  var blocktime = [];
@@ -126,7 +96,7 @@ retrieveBlocks(block_range, callback){
     "method": "listblocks",
     "params": [block_range],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      result = response.body; 
@@ -149,7 +119,6 @@ retrieveBlocks(block_range, callback){
      callback(param_array);
     });
   }
-
-
-
 }
+
+module.exports = Block;

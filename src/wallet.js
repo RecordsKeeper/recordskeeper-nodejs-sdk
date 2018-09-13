@@ -1,47 +1,17 @@
-var path = require('path');
 var unirest = require("unirest");
-var fs = require('fs');
-var config;
-var rk_host;
-var rk_user;
-var rk_pass;
-var rk_chain;
 
-function fileExists(path) {
+class Wallet {
 
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
+ constructor(config) {
+    this.rk_host = config['rk_host'];
+    this.rk_user = config['rk_user'];
+    this.rk_pass = config['rk_pass'];
+    this.rk_chain = config['rk_chain'];
     }
 
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-    config = require(path.resolve( __dirname,'../../../config.json'));
-    rk_host = config['rk_host'];
-    rk_user = config['rk_user'];
-    rk_pass = config['rk_pass'];
-    rk_chain = config['rk_chain']; 
-} else {
-    //require('dotenv').config();   
-    rk_host = process.env.rk_host;
-    rk_user = process.env.rk_user;
-    rk_pass = process.env.rk_pass;
-    rk_chain = process.env.rk_chain;
-}
-
-module.exports = class Wallet  {
-
 importAddress(public_address, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
       var resp;
  
@@ -56,7 +26,7 @@ importAddress(public_address, callback) {
     "method": "importaddress",
     "params": [public_address," ", false],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -74,8 +44,8 @@ importAddress(public_address, callback) {
 }
 
  createWallet(callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var public_address;
  var private_key;
  var public_key;
@@ -91,7 +61,7 @@ importAddress(public_address, callback) {
     "method": "createkeypairs",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -116,8 +86,8 @@ importAddress(public_address, callback) {
   }
 
   getPrivateKey(public_address, callback) {
-     var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-     var req = unirest("POST", rk_host);
+     var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+     var req = unirest("POST", this.rk_host);
      var private_key;
  
      req.headers({
@@ -131,7 +101,7 @@ importAddress(public_address, callback) {
     "method": "dumpprivkey",
     "params": [public_address],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -147,8 +117,8 @@ importAddress(public_address, callback) {
  }
 
  retrieveWalletInfo(callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var balance;
  var tx_count;
  var unspent_tx;
@@ -164,7 +134,7 @@ importAddress(public_address, callback) {
     "method": "getwalletinfo",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -186,8 +156,8 @@ importAddress(public_address, callback) {
   }
 
  backupWallet(filename, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
  
      req.headers({
@@ -201,7 +171,7 @@ importAddress(public_address, callback) {
     "method": "backupwallet",
     "params": [filename],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -216,8 +186,8 @@ importAddress(public_address, callback) {
 }
  
 importWallet(filename, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
  
      req.headers({
@@ -231,7 +201,7 @@ importWallet(filename, callback) {
     "method": "importwallet",
     "params": [filename],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -246,8 +216,8 @@ importWallet(filename, callback) {
 }
 
 dumpWallet(filename, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
  
      req.headers({
@@ -261,7 +231,7 @@ dumpWallet(filename, callback) {
     "method": "dumpwallet",
     "params": [filename],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -276,8 +246,8 @@ dumpWallet(filename, callback) {
 }
 
 lockWallet(password, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
  
      req.headers({
@@ -291,7 +261,7 @@ lockWallet(password, callback) {
     "method": "encryptwallet",
     "params": [password],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -306,8 +276,8 @@ lockWallet(password, callback) {
 }
 
 unlockWallet(password, unlocktime, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
  
      req.headers({
@@ -321,7 +291,7 @@ unlockWallet(password, unlocktime, callback) {
     "method": "walletpassphrase",
     "params": [password, unlocktime],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -336,8 +306,8 @@ unlockWallet(password, unlocktime, callback) {
 }
 
 changeWalletPassword(old_password, new_password, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
  
      req.headers({
@@ -351,7 +321,7 @@ changeWalletPassword(old_password, new_password, callback) {
     "method": "walletpassphrasechange",
     "params": [old_password, new_password],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -366,8 +336,8 @@ changeWalletPassword(old_password, new_password, callback) {
 }
 
 signMessage(private_key, message, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
       var message;
  
@@ -382,7 +352,7 @@ signMessage(private_key, message, callback) {
     "method": "signmessage",
     "params": [private_key, message],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -397,8 +367,8 @@ signMessage(private_key, message, callback) {
 }
 
 verifyMessage(address, signedMessage, message, callback) {
-      var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
-      var req = unirest("POST", rk_host);
+      var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+      var req = unirest("POST", this.rk_host);
       var status;
       var valid;
  
@@ -413,7 +383,7 @@ verifyMessage(address, signedMessage, message, callback) {
     "method": "verifymessage",
     "params": [address, signedMessage, message],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -430,6 +400,7 @@ verifyMessage(address, signedMessage, message, callback) {
  }
      callback(valid);
     });
+  }
 }
 
-}
+module.exports = Wallet;

@@ -1,47 +1,17 @@
-var path = require('path');
 var unirest = require("unirest");
-var fs = require('fs');
-var config;
-var rk_host;
-var rk_user;
-var rk_pass;
-var rk_chain;
 
-function fileExists(path) {
+class Transaction {
 
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
+ constructor(config) {
+    this.rk_host = config['rk_host'];
+    this.rk_user = config['rk_user'];
+    this.rk_pass = config['rk_pass'];
+    this.rk_chain = config['rk_chain'];
     }
 
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-   config = require(path.resolve( __dirname,'../../../config.json'));
-    rk_host = config['rk_host'];
-    rk_user = config['rk_user'];
-    rk_pass = config['rk_pass'];
-    rk_chain = config['rk_chain']; 
-} else {
-    //require('dotenv').config();   
-    rk_host = process.env.rk_host;
-    rk_user = process.env.rk_user;
-    rk_pass = process.env.rk_pass;
-    rk_chain = process.env.rk_chain;
-}
-
-module.exports = class Transaction {
-
  sendTransaction(sender_address, reciever_address, data, amount, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var txid;
  var hexdata = Buffer.from(data, 'utf8').toString('hex');
  req.headers({
@@ -55,7 +25,7 @@ module.exports = class Transaction {
     "method": "createrawsendfrom",
     "params": [sender_address, {[reciever_address] : amount}, [hexdata], "send"],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     
@@ -72,8 +42,8 @@ module.exports = class Transaction {
   }
 
  createRawTransaction(sender_address, reciever_address, data, amount, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var txhex;
  var hexdata = Buffer.from(data, 'utf8').toString('hex');
  req.headers({
@@ -87,7 +57,7 @@ module.exports = class Transaction {
     "method": "createrawsendfrom",
     "params": [sender_address, {[reciever_address] : amount}, [hexdata], ""],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     
@@ -103,8 +73,8 @@ module.exports = class Transaction {
   }
 
  signRawTransaction(txhex, private_key, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var priv_key = [];
  var status;
  var tx_status;
@@ -121,7 +91,7 @@ module.exports = class Transaction {
     "method": "signrawtransaction",
     "params": [txhex, [], priv_key],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body;
@@ -141,8 +111,8 @@ module.exports = class Transaction {
   }
 
  sendRawTransaction(signedtxhex, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var txid;
  req.headers({
     "cache-control": "no-cache",
@@ -155,7 +125,7 @@ module.exports = class Transaction {
     "method": "sendrawtransaction",
     "params": [signedtxhex],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -170,7 +140,7 @@ module.exports = class Transaction {
     });
   }
 
-  sendSignedTransaction(sender_address, reciever_address, amount, private_key, data, callback) {
+sendSignedTransaction(sender_address, reciever_address, amount, private_key, data, callback) {
   	var hexdata = Buffer.from(data, 'utf8').toString('hex');
     this.createRawTransaction(sender_address, reciever_address, hexdata, amount,function(txhex){
     this.signRawTransaction(txhex, private_key, function(signedtxhex){
@@ -183,8 +153,8 @@ module.exports = class Transaction {
 }
 
 retrieveTransaction(txid, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var hex;
  var data;
  var amount;
@@ -200,7 +170,7 @@ retrieveTransaction(txid, callback){
     "method": "getrawtransaction",
     "params": [txid, 1],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      
@@ -221,8 +191,8 @@ retrieveTransaction(txid, callback){
   }
 
  getFee(address, txid, callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var fee;
  req.headers({
     "cache-control": "no-cache",
@@ -235,7 +205,7 @@ retrieveTransaction(txid, callback){
     "method": "getaddresstransaction",
     "params": [address, txid, true],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      
@@ -251,6 +221,6 @@ retrieveTransaction(txid, callback){
      callback(fee);
     }); 
   }
-
-
 }
+
+module.exports = Transaction;

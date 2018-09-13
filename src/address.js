@@ -1,48 +1,18 @@
 'use strict';
 var unirest = require("unirest");
-var path = require('path');
-var fs = require('fs');
-var config;
-var rk_host;
-var rk_user;
-var rk_pass;
-var rk_chain;
 
-function fileExists(path) {
+class Address {
 
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
+constructor(config) {
+    this.rk_host = config['rk_host'];
+    this.rk_user = config['rk_user'];
+    this.rk_pass = config['rk_pass'];
+    this.rk_chain = config['rk_chain'];
     }
 
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-   config = require(path.resolve( __dirname,'../../../config.json'));
-    rk_host = config['rk_host'];
-    rk_user = config['rk_user'];
-    rk_pass = config['rk_pass'];
-    rk_chain = config['rk_chain']; 
-} else {
-    //require('dotenv').config();   
-    rk_host = process.env.rk_host;
-    rk_user = process.env.rk_user;
-    rk_pass = process.env.rk_pass;
-    rk_chain = process.env.rk_chain;
-}
-
-
-module.exports = class Address {
 getAddress(callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var address;
  
  req.headers({
@@ -56,7 +26,7 @@ getAddress(callback){
     "method": "getnewaddress",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -72,10 +42,11 @@ getAddress(callback){
   }
 
  getMultisigAddress(required, key, callback) {
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var address;
  var keys = key.split(",");
+ console.log(keys);
  req.headers({
     "cache-control": "no-cache",
     "authorization": auth,
@@ -87,7 +58,7 @@ getAddress(callback){
     "method": "createmultisig",
     "params": [required, keys],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -102,8 +73,8 @@ getAddress(callback){
 }
 
 getMultisigWalletAddress(required, key, callback) {
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var multisigaddress;
  var address;
  var keys = key.split(",");
@@ -118,7 +89,7 @@ getMultisigWalletAddress(required, key, callback) {
     "method": "addmultisigaddress",
     "params": [required, keys],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -133,8 +104,8 @@ getMultisigWalletAddress(required, key, callback) {
 }
 
  retrieveAddresses(callback) {
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var addresses;
  var address_count;
  var params_array = {};
@@ -149,7 +120,7 @@ getMultisigWalletAddress(required, key, callback) {
     "method": "getaddresses",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -169,8 +140,8 @@ getMultisigWalletAddress(required, key, callback) {
 }
 
  checkifValid(addr, callback) {
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var valid;
  var addressCheck;
  req.headers({
@@ -184,7 +155,7 @@ getMultisigWalletAddress(required, key, callback) {
     "method": "validateaddress",
     "params": [addr],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -200,8 +171,8 @@ getMultisigWalletAddress(required, key, callback) {
   }
 
  checkifMineAllowed(addr, callback) {
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var permission;
  var permissionCheck;
  
@@ -216,7 +187,7 @@ getMultisigWalletAddress(required, key, callback) {
     "method": "validateaddress",
     "params": [addr],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -244,8 +215,8 @@ getMultisigWalletAddress(required, key, callback) {
     });
 }
 checkBalance(address, callback) {
-var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var balance;
  
  req.headers({
@@ -259,7 +230,7 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
     "method": "getaddressbalances",
     "params": [address],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     var result = response.body; 
@@ -274,8 +245,8 @@ var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
 }
 
 importAddress(addr, callback) {
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var status;
  var resp;
  
@@ -290,7 +261,7 @@ importAddress(addr, callback) {
     "method": "importaddress",
     "params": [addr," ", false],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
      var result = response.body; 
@@ -307,3 +278,5 @@ importAddress(addr, callback) {
     }); 
  }
 }
+
+module.exports = Address;

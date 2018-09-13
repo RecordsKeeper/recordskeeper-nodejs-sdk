@@ -1,46 +1,17 @@
-var path = require('path');
 var unirest = require("unirest");
-var fs = require('fs');
-var config;
-var rk_host;
-var rk_user;
-var rk_pass;
-var rk_chain;
 
-function fileExists(path) {
-
-  try  {
-    return fs.statSync(path).isFile();
-  }
-  catch (e) {
-
-    if (e.code == 'ENOENT') { // no such file or directory. File really does not exist
-      return false;
+class Blockchain {
+ 
+ constructor(config) {
+    this.rk_host = config['rk_host'];
+    this.rk_user = config['rk_user'];
+    this.rk_pass = config['rk_pass'];
+    this.rk_chain = config['rk_chain'];
     }
 
-    console.log("Exception fs.statSync (" + path + "): " + e);
-    throw e; // something else went wrong, we don't have rights, ...
-  }
-}
-
-if(fileExists('./config.json')== true){
-   config = require(path.resolve( __dirname,'../../../config.json'));
-    rk_host = config['rk_host'];
-    rk_user = config['rk_user'];
-    rk_pass = config['rk_pass'];
-    rk_chain = config['rk_chain']; 
-} else {
-    //require('dotenv').config();   
-    rk_host = process.env.rk_host;
-    rk_user = process.env.rk_user;
-    rk_pass = process.env.rk_pass;
-    rk_chain = process.env.rk_chain;
-}
-
-module.exports = class Blockchain {
  getChainInfo(callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var chain_protocol;
  var chain_description;
  var root_stream;
@@ -61,7 +32,7 @@ module.exports = class Blockchain {
     "method": "getblockchainparams",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -92,8 +63,8 @@ module.exports = class Blockchain {
   }
 
  getNodeInfo(callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var node_balance;
  var synced_blocks;
  var node_address;
@@ -110,7 +81,7 @@ module.exports = class Blockchain {
     "method": "getinfo",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -136,8 +107,8 @@ module.exports = class Blockchain {
   }
 
  permissions(callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var permissions = [];
  var per_count;
  req.headers({
@@ -151,7 +122,7 @@ module.exports = class Blockchain {
     "method": "listpermissions",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -173,8 +144,8 @@ module.exports = class Blockchain {
   }
 
  getpendingTransactions(callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var tx_count;
  var tx = [];
  var params_array = {};
@@ -189,7 +160,7 @@ module.exports = class Blockchain {
     "method": "getmempoolinfo",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -200,6 +171,7 @@ module.exports = class Blockchain {
       	var result = response.body;
       	var count = result['result'];
       	tx_count = count['size'];
+        console.log(tx_count);
        if(tx_count!=0){
        req.headers({
       "cache-control": "no-cache",
@@ -212,7 +184,7 @@ module.exports = class Blockchain {
     "method": "getrawmempool",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -243,8 +215,8 @@ module.exports = class Blockchain {
   }
 
  checkNodeBalance(callback){
- var auth = 'Basic ' + Buffer.from(rk_user + ':' + rk_pass).toString('base64');
- var req = unirest("POST", rk_host);
+ var auth = 'Basic ' + Buffer.from(this.rk_user + ':' + this.rk_pass).toString('base64');
+ var req = unirest("POST", this.rk_host);
  var balance;
  req.headers({
     "cache-control": "no-cache",
@@ -257,7 +229,7 @@ module.exports = class Blockchain {
     "method": "getmultibalances",
     "params": [],
     "id": 1,
-    "chain_name": rk_chain
+    "chain_name": this.rk_chain
     });
     req.end(function (response) {
     if (response.error){
@@ -274,3 +246,5 @@ module.exports = class Blockchain {
 
 
 }
+
+module.exports = Blockchain;
