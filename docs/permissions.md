@@ -72,11 +72,11 @@ send, receive, create, issue, mine, activate, admin to an address on
 RecordsKeeper Blockchain.
 
 ``` {.sourceCode .nodejs}
-revokePermission(address, permissions, callback) 
+revokePermissions(address, permissions, callback) 
 
 var permission = new recordskeeper.Permissions(config); //object of class Permissions
 
-permission.grantPermission(address, permissions, function(response){    //revokePermission() function call
+permission.grantPermissions(address, permissions, function(response){    //revokePermission() function call
 
 console.log(response)         //prints response of the revoke permision transaction
 
