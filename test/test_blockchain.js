@@ -41,7 +41,7 @@ describe('#getChainInfo', function() {
     it('should return correct node info', function(done) {
         b.getNodeInfo(function(response){
         var node_balance = response['node-balance'];
-        assert(node_balance>100);
+        assert(node_balance>0);
         var blocks = response['blocks'];
         assert(blocks>100);
         var node_address = response['node-address'];
