@@ -13,7 +13,7 @@ Step 1: Create a new directory and make a package.json file inside it.
 ```bash
 {
   "dependencies": {
-    "recordskeeper": "^0.1.0"
+    "recordskeeper-sdk": "^0.1.0"
   }
 }
 
@@ -33,29 +33,15 @@ Config file to import config parameters:
 ```bash
     
    var config = require('./config.json');
-```
-   
-Importing chain url and chain name from config file:
+```  
 
-* URL: Url to connect to the chain ([RPC Host]:[RPC Port])
-* Chain-name: chain name
+Importing RecordsKeeper SDK
+---------------------------
 
-```bash
-  var rk_host = config['rk_host'];
-  var rk_chain = config['rk_chain'];
-```   
-
-Node Authentication
--------------------
-
-Importing user name and password values from config file to authenticate the node:
-
-* User name: The rpc user is used to call the APIs.
-* Password: The rpc password is used to authenticate the APIs.
+Import recordskeepr library first to get started with the functionality.:
 
 ```bash
-    var rk_user = config['rk_user'];
-    var rk_pass = config['rk_pass'];
+    var recordskeeper = require('recordskeeper-sdk'); 
 
 ``` 
 
