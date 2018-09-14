@@ -14,7 +14,7 @@ Libraries
 Import recordskeepr library first to get started with the functionality.
 
 ``` {.sourceCode .nodejs}
-var recordskeeper = require('recordskeeper');  
+var recordskeeper = require('recordskeeper-sdk');  
 ```
 
 Importing Config
