@@ -1,6 +1,6 @@
 {
-  "name": "recordskeeper",
-  "version": "0.1.16",
+  "name": "recordskeeper-sdk",
+  "version": "0.1.0",
   "engines": {
     "node": ">=4.1.1"
   },
@@ -21,7 +21,6 @@
   "homepage": "https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk.git#readme",
   "dependencies": {
     "async": "^2.6.1",
-    "deasync": "^0.1.13",
     "unirest": "^0.5.1"
   },
   "devDependencies": {
