@@ -25,10 +25,10 @@ Step 2: Run the following command.
 npm i
 
 ```
-Creating Connection
+Creating Config
 -------------------
 
-Config file to import config parameters:
+Create Config file and import config parameters:
 
 ```bash
     
@@ -69,6 +69,13 @@ Import recordskeepr library first to get started with the functionality.:
 First install the mocha framework by running the following command:
 ```bash
 npm install --save-dev mocha
+```
+
+Create Config file and import config parameters:
+
+```bash
+    
+   var config = require('./config.json');
 ```
 
 Under node_modules/recordskeeper. 
