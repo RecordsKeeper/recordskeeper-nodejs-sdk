@@ -8,12 +8,13 @@ It is an infrastructure to build RecordsKeeper blockchain-based applications, pr
 ## Getting Started
 
 Before you begin you'll need to have nodejs and npm installed. There are several options for installation for  depending on the operating system you are using.
+
 Step 1: Create a new directory and make a package.json file inside it.
 
 ```bash
 {
   "dependencies": {
-    "recordskeeper-sdk": "^0.1.0"
+    "recordskeeper-sdk": "^1.0.0"
   }
 }
 
