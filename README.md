@@ -9,7 +9,7 @@ It is an infrastructure to build RecordsKeeper blockchain-based applications, pr
 
 Before you begin you'll need to have nodejs and npm installed. There are several options for installation for  depending on the operating system you are using.
 
-Step 1: Create a new directory and make a package.json file inside it.
+Step 1: Create a new directory and make a package.json file inside it and put the following lines in the package.json file.
 
 ```bash
 {
@@ -20,7 +20,7 @@ Step 1: Create a new directory and make a package.json file inside it.
 
 ```
 
-Step 2: Run the following command.
+Step 2: Run the following command to install the recordskeeper-sdk.
 ```bash
 
 npm i
