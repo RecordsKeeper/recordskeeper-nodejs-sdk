@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/RecordsKeeper/recordskeeper-nodejs-sdk.git#readme",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "unirest": "^0.5.1"
   },
   "devDependencies": {
